@@ -2,6 +2,10 @@
 
 A new Flutter project.
 
+Genshin calculator is created to fix my laziness to do math.
+- calculate total number of time needed for resin to regen in-game to meet the amount I needed to do domain/bosses.
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
