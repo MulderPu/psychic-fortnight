@@ -47,7 +47,8 @@ class _HomeViewState extends State<HomeView> {
                   left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
               child: ElevatedButton(
                   onPressed: () {
-                    print("redirect to sudden mission");
+                    Navigator.pushNamed(
+                        context, RouteGenerator.ROUTE_SUDDENMISSION);
                   },
                   style: ElevatedButton.styleFrom(
                     onPrimary: Colors.white,

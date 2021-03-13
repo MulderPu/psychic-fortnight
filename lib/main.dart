@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:genshin_calculator/utils/routes.dart';
 import 'package:genshin_calculator/views/homeView.dart';
 
+import 'utils/blocObserver.dart';
+
 void main() {
+  FlutterBlocObserver observer = FlutterBlocObserver();
   runApp(MyApp());
 }
 
@@ -16,7 +19,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       onGenerateRoute: RouteGenerator.generateRoute,
-
       home: HomeView(
         title: "Genshin Calculator",
       ),
