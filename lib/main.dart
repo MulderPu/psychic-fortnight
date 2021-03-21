@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:genshin_calculator/utils/routes.dart';
 import 'package:genshin_calculator/views/homeView.dart';
 
 import 'utils/blocObserver.dart';
@@ -18,7 +17,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      onGenerateRoute: RouteGenerator.generateRoute,
       home: HomeView(
         title: "Genshin Calculator",
       ),

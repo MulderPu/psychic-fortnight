@@ -1,5 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+import 'homeView.dart';
 
 class ResinTimeView extends StatefulWidget {
   ResinTimeView({Key key}) : super(key: key);
@@ -126,16 +129,19 @@ class _ResinTimeViewState extends State<ResinTimeView> {
                             var totalMinutes = (remainResin * regenerateTime);
                             var convertHourMins = totalMinutes / 60;
                             var hours = convertHourMins.toInt();
-                            var mins = (convertHourMins - hours.toDouble()) * 60;
+                            var mins =
+                                (convertHourMins - hours.toDouble()) * 60;
 
                             setState(() {
                               result = "$hours hours and ${mins.round()} mins";
-                              resinNeededController.text = neededResin.toString();
-                              yourResinController.text = currentResin.toString();
+                              resinNeededController.text =
+                                  neededResin.toString();
+                              yourResinController.text =
+                                  currentResin.toString();
 
                               var now = DateTime.now();
-                              var expectDatetime = now.add(
-                                  Duration(hours: hours, minutes: mins.toInt()));
+                              var expectDatetime = now.add(Duration(
+                                  hours: hours, minutes: mins.toInt()));
 
                               expectedTime = DateFormat('yyyy-MM-dd – kk:mm')
                                   .format(expectDatetime);
