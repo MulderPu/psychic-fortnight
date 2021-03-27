@@ -52,6 +52,7 @@ class _ResinTimeViewState extends State<ResinTimeView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                   child: TextFormField(
+                    key: Key("resinField"),
                     controller: yourResinController,
                     cursorColor: Colors.purple,
                     keyboardType: TextInputType.number,
@@ -78,6 +79,7 @@ class _ResinTimeViewState extends State<ResinTimeView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                   child: TextFormField(
+                    key: Key("resinNeededField"),
                     controller: resinNeededController,
                     cursorColor: Colors.purple,
                     keyboardType: TextInputType.number,
@@ -106,6 +108,7 @@ class _ResinTimeViewState extends State<ResinTimeView> {
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
+                        key: Key("calculateButton"),
                         style: ElevatedButton.styleFrom(
                           onPrimary: Colors.white,
                           primary: Colors.purple,
