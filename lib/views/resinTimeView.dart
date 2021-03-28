@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:genshin_calculator/utils/constant.dart';
+import 'package:genshin_calculator/utils/keys.dart';
 import 'package:intl/intl.dart';
-
-import 'homeView.dart';
+import 'package:sizer/sizer.dart';
 
 class ResinTimeView extends StatefulWidget {
   ResinTimeView({Key key}) : super(key: key);
@@ -52,13 +53,14 @@ class _ResinTimeViewState extends State<ResinTimeView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                   child: TextFormField(
-                    key: Key("resinField"),
+                    key: Key(ResinTimePageKeys.RESIN_FIELD),
                     controller: yourResinController,
                     cursorColor: Colors.purple,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         labelText: 'Your Resin:',
-                        labelStyle: TextStyle(color: Colors.grey),
+                        labelStyle: TextStyle(
+                            color: Colors.grey, fontSize: FONT_LABEL.sp),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -79,13 +81,14 @@ class _ResinTimeViewState extends State<ResinTimeView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                   child: TextFormField(
-                    key: Key("resinNeededField"),
+                    key: Key(ResinTimePageKeys.RESIN_NEEDED_FIELD),
                     controller: resinNeededController,
                     cursorColor: Colors.purple,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
                         labelText: 'Resin Needed:',
-                        labelStyle: TextStyle(color: Colors.grey),
+                        labelStyle: TextStyle(
+                            color: Colors.grey, fontSize: FONT_LABEL.sp),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -108,8 +111,9 @@ class _ResinTimeViewState extends State<ResinTimeView> {
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                        key: Key("calculateButton"),
+                        key: Key(ResinTimePageKeys.CALCULATE_BUTTON),
                         style: ElevatedButton.styleFrom(
+                          textStyle: TextStyle(fontSize: FONT_BUTTON.sp),
                           onPrimary: Colors.white,
                           primary: Colors.purple,
                           onSurface: Colors.grey,
@@ -158,12 +162,14 @@ class _ResinTimeViewState extends State<ResinTimeView> {
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     'Result: $result',
+                    style: TextStyle(fontSize: FONT_BODY.sp),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
                     'Expected DateTime: $expectedTime',
+                    style: TextStyle(fontSize: FONT_BODY.sp),
                   ),
                 ),
               ],

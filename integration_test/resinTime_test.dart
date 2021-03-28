@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:genshin_calculator/main.dart';
+import 'package:genshin_calculator/utils/keys.dart';
 import 'package:genshin_calculator/views/resinTimeView.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -10,7 +11,8 @@ void main() {
   group('Resin Time Calculate Page', () {
     testWidgets("validate empty field", (WidgetTester tester) async {
       // final Finder resinField = find.byKey(Key('resinField'));
-      final Finder calculateButton = find.byKey(Key('calculateButton'));
+      final Finder calculateButton =
+          find.byKey(Key(ResinTimePageKeys.CALCULATE_BUTTON));
 
       await tester.pumpWidget(MyApp());
 
@@ -45,9 +47,11 @@ void main() {
 
     testWidgets("Resin Calculator Test", (WidgetTester tester) async {
       /* Setups the finder*/
-      final Finder resinField = find.byKey(Key('resinField'));
-      final Finder resinNeededField = find.byKey(Key('resinNeededField'));
-      final Finder calculateButton = find.byKey(Key('calculateButton'));
+      final Finder resinField = find.byKey(Key(ResinTimePageKeys.RESIN_FIELD));
+      final Finder resinNeededField =
+          find.byKey(Key(ResinTimePageKeys.RESIN_NEEDED_FIELD));
+      final Finder calculateButton =
+          find.byKey(Key(ResinTimePageKeys.CALCULATE_BUTTON));
 
       await tester.pumpWidget(MyApp());
 
@@ -60,7 +64,7 @@ void main() {
 
       await tester.pumpAndSettle();
 
-      await tester.tap(find.byKey(Key('resinField')));
+      await tester.tap(resinField);
       await tester.enterText(resinField, "0");
 
       await tester.tap(resinNeededField);

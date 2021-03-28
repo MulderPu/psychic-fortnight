@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:genshin_calculator/cubit/suddenmission_cubit.dart';
+import 'package:genshin_calculator/utils/constant.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sizer/sizer.dart';
 
 class SuddenMissionView extends StatefulWidget {
   SuddenMissionView({Key key}) : super(key: key);
@@ -83,7 +85,7 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20,
+                        fontSize: FONT_LARGE.sp,
                       ),
                     ),
                     suddenMissionCount != 10
@@ -133,6 +135,7 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                         context.read<SuddenmissionCubit>().resetView();
                       },
                       style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(fontSize: FONT_BUTTON.sp),
                         onPrimary: Colors.white,
                         primary: Colors.purple,
                         onSurface: Colors.grey,

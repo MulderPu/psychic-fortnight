@@ -1,9 +1,15 @@
-# genshin_calculator
+# genshin_daily_reminder
 
-A new Flutter project.
+A new Flutter project. This is a topic for me to learn flutter and also can use it for my gaming reminder and helper.
 
-Genshin calculator is created to fix my laziness to do math.
-- calculate total number of time needed for resin to regen in-game to meet the amount I needed to do domain/bosses.
+## Features:
+1. Genshin calculator is created to fix my laziness to do math.
+   * calculate total number of time needed for resin to regen in-game to meet the amount I needed to do domain/bosses.
+
+2. Sudden Mission Count
+    * record your count of sudden mission you did. (max 10)
+3. Simple task todo list
+    * To remind daily task, can add task like web event, and will remind you to do it daily
 
 
 ## Getting Started
