@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:genshin_calculator/utils/colors.dart';
 import 'package:genshin_calculator/utils/constant.dart';
+
+import 'customShape/circle.dart';
 
 class TaskView extends StatelessWidget {
   const TaskView({Key key}) : super(key: key);
@@ -17,12 +20,56 @@ class TaskView extends StatelessWidget {
               pinned: true,
             ),
             SliverPadding(
-              padding: EdgeInsets.only(top: expandedHeight / 2),
+              padding: EdgeInsets.only(top: expandedHeight / 1.5),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  (_, index) => ListTile(
-                    title: Text("Index: $index"),
-                  ),
+                  (BuildContext context, int index) {
+                    return Container(
+                      margin: EdgeInsets.only(
+                        left: PADDING_LARGE,
+                        right: PADDING_LARGE,
+                        top: 0,
+                        bottom: PADDING_LARGE,
+                      ),
+                      padding: EdgeInsets.all(PADDING_MEDIUM),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Icon(Icons.check_box),
+                          Text(
+                            '07.00 AM',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          Container(
+                            width: 180,
+                            child: Text(
+                              'Daily Quest',
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  decoration: TextDecoration.lineThrough),
+                            ),
+                          ),
+                          Icon(Icons.notifications),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          stops: [0.015, 0.015],
+                          colors: [Colors.redAccent, Colors.white],
+                        ),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(5.0),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 8.0,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                  childCount: 12,
                 ),
               ),
             )
@@ -54,8 +101,8 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
                 colors: [
-                  Color(0xff00d2ff),
-                  Color(0xff3a7bd5),
+                  skyBlue,
+                  oceanBlue,
                 ]),
           )),
           title: Text("Task Reminder",
@@ -69,6 +116,18 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
             ),
           ],
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CustomPaint(
+              painter: CircleOne(),
+            ),
+            CustomPaint(
+              painter: CircleTwo(),
+            ),
+          ],
+        ),
+
         // Center(
         //   child: Opacity(
         //     opacity: shrinkOffset / expandedHeight,
@@ -92,7 +151,10 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
               child: SizedBox(
                 height: expandedHeight,
                 width: MediaQuery.of(context).size.width / 2,
-                child: FlutterLogo(),
+                child: Padding(
+                  padding: const EdgeInsets.all(PADDING_MEDIUM),
+                  child: Image(image: AssetImage("assets/images/anemo.png")),
+                ),
               ),
             ),
           ),
