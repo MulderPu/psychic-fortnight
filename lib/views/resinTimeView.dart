@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:genshin_calculator/utils/constant.dart';
 import 'package:genshin_calculator/utils/keys.dart';
+import 'package:genshin_calculator/views/widgets/gradientAppBar.dart';
 import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
@@ -38,8 +39,8 @@ class _ResinTimeViewState extends State<ResinTimeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Resin Time"),
+      appBar: GradientAppBar(
+        title: "Resin Time",
       ),
       body: Form(
         key: _formKey,

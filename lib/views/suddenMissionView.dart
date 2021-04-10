@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:genshin_calculator/cubit/suddenmission_cubit.dart';
 import 'package:genshin_calculator/utils/constant.dart';
+import 'package:genshin_calculator/views/widgets/gradientAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
@@ -26,8 +27,8 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
     return BlocProvider(
       create: (_) => SuddenmissionCubit(),
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("Sudden Mission"),
+        appBar: GradientAppBar(
+          title: "Sudden Event",
         ),
         body: BlocConsumer<SuddenmissionCubit, SuddenmissionState>(
           listener: (context, state) {
@@ -147,6 +148,9 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                       ),
                       child: Text("Reset Count")),
                 ),
+                // log here
+                // Text("Click's History"),
+                // SizedBox(width: double.infinity, child: ListTile(title: Text(data),)),
               ],
             );
           },

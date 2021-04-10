@@ -101,8 +101,8 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
                 colors: [
-                  skyBlue,
-                  oceanBlue,
+                  purple,
+                  lightPurple,
                 ]),
           )),
           title: Text("Task Reminder",

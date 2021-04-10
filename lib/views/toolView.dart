@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:genshin_calculator/utils/constant.dart';
 import 'package:genshin_calculator/views/resinTimeView.dart';
 import 'package:genshin_calculator/views/suddenMissionView.dart';
+import 'package:genshin_calculator/views/widgets/gradientAppBar.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sizer/sizer.dart';
 
@@ -17,8 +18,8 @@ class _ToolViewState extends State<ToolView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Tools"),
+      appBar: GradientAppBar(
+        title: "Tools",
       ),
       body: Container(
         width: double.infinity,

@@ -32,7 +32,7 @@ class _HomeViewState extends State<HomeView> {
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.list_bullet_below_rectangle),
         title: ("Task"),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: Colors.purple,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
@@ -41,13 +41,13 @@ class _HomeViewState extends State<HomeView> {
           color: Colors.white,
         ),
         title: null,
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: Colors.purple,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.wrench),
         title: ("Tools"),
-        activeColorPrimary: CupertinoColors.activeBlue,
+        activeColorPrimary: Colors.purple,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];
