@@ -1,10 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:genshin_calculator/cubit/suddenmission_cubit.dart';
+import 'package:genshin_calculator/models/clickHistory.dart';
 import 'package:genshin_calculator/utils/constant.dart';
 import 'package:genshin_calculator/views/widgets/gradientAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:intl/intl.dart';
 
 class SuddenMissionView extends StatefulWidget {
   SuddenMissionView({Key key}) : super(key: key);
@@ -16,6 +20,8 @@ class SuddenMissionView extends StatefulWidget {
 class _SuddenMissionViewState extends State<SuddenMissionView> {
   int suddenMissionCount;
   bool resetUi;
+  ClickHistory latestHistory = ClickHistory();
+  ClickHistory previousHistory = ClickHistory();
 
   @override
   void initState() {
@@ -36,15 +42,51 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
             if (state is IncrementState) {
               suddenMissionCount = state.count;
               saveSuddenMissionCount(state.count);
+
+              if (latestHistory.title != "") {
+                previousHistory.title = latestHistory.title;
+              }
+
+              if (latestHistory.datetime != "") {
+                previousHistory.datetime = latestHistory.datetime;
+              }
+
+              // add new log
+              latestHistory.title = "Increment by 1";
+              latestHistory.datetime = DateFormat('yyyy-MM-dd kk:mm:ss')
+                  .format(DateTime.now())
+                  .toString();
+
+              saveClickHistory("latestHistory", latestHistory);
+              saveClickHistory("previousHistory", previousHistory);
             }
 
             if (state is DecrementState) {
               suddenMissionCount = state.count;
               saveSuddenMissionCount(state.count);
+
+              if (latestHistory.title != "") {
+                previousHistory.title = latestHistory.title;
+              }
+
+              if (latestHistory.datetime != "") {
+                previousHistory.datetime = latestHistory.datetime;
+              }
+
+              // add new log
+              latestHistory.title = "Decrement by 1";
+              latestHistory.datetime = DateFormat('yyyy-MM-dd kk:mm:ss')
+                  .format(DateTime.now())
+                  .toString();
+
+              saveClickHistory("latestHistory", latestHistory);
+              saveClickHistory("previousHistory", previousHistory);
             }
 
             if (state is LoadSessionState) {
               suddenMissionCount = state.count;
+              latestHistory = state.latestHistory;
+              previousHistory = state.previousHistory;
             }
 
             if (state is ResetState) {
@@ -86,7 +128,7 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: FONT_LARGE.sp,
+                        fontSize: FONT_MEDIUM.sp,
                       ),
                     ),
                     suddenMissionCount != 10
@@ -112,7 +154,11 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                 ),
                 Padding(
                   padding: suddenMissionCount == 10
-                      ? const EdgeInsets.all(20.0)
+                      ? const EdgeInsets.only(
+                          left: PADDING_MEDIUM,
+                          right: PADDING_MEDIUM,
+                          top: PADDING_MEDIUM,
+                        )
                       : const EdgeInsets.all(0.0),
                   child: Text(
                     suddenMissionCount == 10
@@ -124,12 +170,12 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                           ? Colors.green
                           : Colors.black,
                       fontWeight: FontWeight.w400,
-                      fontSize: 20,
+                      fontSize: FONT_MEDIUM.sp,
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(30.0),
+                  padding: const EdgeInsets.all(PADDING_LARGE),
                   child: ElevatedButton(
                       onPressed: () async {
                         // RESET
@@ -149,8 +195,31 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                       child: Text("Reset Count")),
                 ),
                 // log here
-                // Text("Click's History"),
-                // SizedBox(width: double.infinity, child: ListTile(title: Text(data),)),
+                Text(
+                  "Click's History",
+                  style: TextStyle(
+                      fontSize: FONT_LABEL.sp, fontWeight: FontWeight.bold),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: PADDING_MEDIUM, right: PADDING_MEDIUM),
+                  child: SizedBox(
+                      width: double.infinity,
+                      child: ListTile(
+                        title: Text(latestHistory.title ?? ""),
+                        trailing: Text(latestHistory.datetime ?? ""),
+                      )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: PADDING_MEDIUM, right: PADDING_MEDIUM),
+                  child: SizedBox(
+                      width: double.infinity,
+                      child: ListTile(
+                        title: Text(previousHistory.title ?? ""),
+                        trailing: Text(previousHistory.datetime ?? ""),
+                      )),
+                ),
               ],
             );
           },
@@ -162,5 +231,10 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
   saveSuddenMissionCount(count) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt("missionCount", count);
+  }
+
+  saveClickHistory(key, ClickHistory data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, json.encode(data));
   }
 }

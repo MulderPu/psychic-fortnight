@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:genshin_calculator/models/clickHistory.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 part 'suddenmission_state.dart';
 
@@ -21,6 +23,9 @@ class SuddenmissionCubit extends Cubit<SuddenmissionState> {
 
   Future<void> readSession() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    ClickHistory latestHistory = ClickHistory();
+    ClickHistory previousHistory = ClickHistory();
+
     var storedMissionCount = prefs.getInt("missionCount");
     if (storedMissionCount == null) {
       storedMissionCount = 0;
@@ -48,8 +53,15 @@ class SuddenmissionCubit extends Cubit<SuddenmissionState> {
       }
     }
 
+    latestHistory = prefs.getString("latestHistory") != null
+        ? ClickHistory.fromJson(json.decode(prefs.getString("latestHistory")))
+        : ClickHistory();
+    previousHistory = prefs.getString("previousHistory") != null
+        ? ClickHistory.fromJson(json.decode(prefs.getString("previousHistory")))
+        : ClickHistory();
+
     print("stored mission count: $storedMissionCount");
-    emit(LoadSessionState(storedMissionCount));
+    emit(LoadSessionState(storedMissionCount, latestHistory, previousHistory));
   }
 
   resetView() async {

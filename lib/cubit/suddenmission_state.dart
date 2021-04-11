@@ -29,8 +29,10 @@ class DecrementState extends SuddenmissionState {
 
 class LoadSessionState extends SuddenmissionState {
   int count;
+  ClickHistory latestHistory;
+  ClickHistory previousHistory;
 
-  LoadSessionState(this.count);
+  LoadSessionState(this.count, this.latestHistory, this.previousHistory);
 
   @override
   String toString() {
