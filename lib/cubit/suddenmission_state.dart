@@ -42,8 +42,10 @@ class LoadSessionState extends SuddenmissionState {
 
 class ResetState extends SuddenmissionState {
   int count;
+  ClickHistory latestHistory;
+  ClickHistory previousHistory;
 
-  ResetState(this.count);
+  ResetState(this.count, this.latestHistory, this.previousHistory);
 
   @override
   String toString() {

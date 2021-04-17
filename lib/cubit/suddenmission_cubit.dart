@@ -47,7 +47,16 @@ class SuddenmissionCubit extends Cubit<SuddenmissionState> {
 
       // compare date see if new day
       if (formatCurrentDatetime.difference(formatStoreDatetime).inDays > 0) {
+        // reset mission count since is new day
         prefs.setInt("missionCount", 0);
+
+        // reset click history since is new day
+        ClickHistory resetLatestHistory = ClickHistory();
+        prefs.setString("latestHistory", json.encode(resetLatestHistory));
+        ClickHistory resetPreviousHistory = ClickHistory();
+        prefs.setString("previousHistory", json.encode(resetPreviousHistory));
+
+        // reset datetime
         prefs.setString("suddenDateTime", currentDateTime.toString());
         storedMissionCount = 0;
       }
@@ -65,8 +74,18 @@ class SuddenmissionCubit extends Cubit<SuddenmissionState> {
   }
 
   resetView() async {
+    var resetCount = 0;
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt("missionCount", 0);
-    emit(ResetState(0));
+    prefs.setInt("missionCount", resetCount);
+
+    // reset latest click history
+    ClickHistory resetLatestHistory = ClickHistory();
+    prefs.setString("latestHistory", json.encode(resetLatestHistory));
+
+    // reset previous click history
+    ClickHistory resetPreviousHistory = ClickHistory();
+    prefs.setString("previousHistory", json.encode(resetPreviousHistory));
+
+    emit(ResetState(resetCount, resetLatestHistory, resetPreviousHistory));
   }
 }

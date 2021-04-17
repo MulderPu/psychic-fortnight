@@ -91,6 +91,8 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
 
             if (state is ResetState) {
               suddenMissionCount = state.count;
+              latestHistory = state.latestHistory;
+              previousHistory = state.previousHistory;
             }
           },
           builder: (context, state) {
