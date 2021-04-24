@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:genshin_calculator/cubit/suddenmission_cubit.dart';
 import 'package:genshin_calculator/models/clickHistory.dart';
 import 'package:genshin_calculator/utils/constant.dart';
@@ -93,6 +94,8 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
               suddenMissionCount = state.count;
               latestHistory = state.latestHistory;
               previousHistory = state.previousHistory;
+
+              showToast("Mission count is reset.", context: context);
             }
           },
           builder: (context, state) {
@@ -208,8 +211,25 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                   child: SizedBox(
                       width: double.infinity,
                       child: ListTile(
-                        title: Text(latestHistory.title ?? ""),
-                        trailing: Text(latestHistory.datetime ?? ""),
+                        title: Align(
+                          alignment: Alignment.centerLeft,
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 500),
+                            reverseDuration: const Duration(milliseconds: 100),
+                            child: Text(
+                              latestHistory.title ?? "",
+                              key: ValueKey<String>(latestHistory.datetime),
+                            ),
+                          ),
+                        ),
+                        trailing: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 500),
+                          reverseDuration: const Duration(milliseconds: 100),
+                          child: Text(
+                            latestHistory.datetime ?? "",
+                            key: ValueKey<String>(latestHistory.datetime),
+                          ),
+                        ),
                       )),
                 ),
                 Padding(
@@ -218,8 +238,25 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                   child: SizedBox(
                       width: double.infinity,
                       child: ListTile(
-                        title: Text(previousHistory.title ?? ""),
-                        trailing: Text(previousHistory.datetime ?? ""),
+                        title: Align(
+                          alignment: Alignment.centerLeft,
+                          child: AnimatedSwitcher(
+                            duration: const Duration(milliseconds: 300),
+                            reverseDuration: const Duration(milliseconds: 100),
+                            child: Text(
+                              previousHistory.title ?? "",
+                              key: ValueKey<String>(previousHistory.datetime),
+                            ),
+                          ),
+                        ),
+                        trailing: AnimatedSwitcher(
+                          duration: const Duration(milliseconds: 300),
+                          reverseDuration: const Duration(milliseconds: 100),
+                          child: Text(
+                            previousHistory.datetime ?? "",
+                            key: ValueKey<String>(previousHistory.datetime),
+                          ),
+                        ),
                       )),
                 ),
               ],
