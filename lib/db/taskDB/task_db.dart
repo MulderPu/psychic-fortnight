@@ -84,9 +84,8 @@ class TaskDB {
   Future deleteTask(int taskID) async {
     var db = await _appDatabase.getDb();
     await db.transaction((Transaction txn) async {
-      await txn.rawUpdate(
-          'UPDATE ${Tasks.tblTask} SET ${Tasks.dbIsDeleted} = ?',
-          [Tasks.deleted]);
+      await txn.rawQuery(
+          "UPDATE ${Tasks.tblTask} SET ${Tasks.dbIsDeleted} = '${Tasks.deleted}' WHERE ${Tasks.dbId} = '$taskID'");
     });
   }
 
@@ -99,7 +98,7 @@ class TaskDB {
   // }
 
   /// Inserts or replaces the task.
-  Future updateTask(Tasks task, {List<int> labelIDs}) async {
+  Future updateTask(Tasks task) async {
     var db = await _appDatabase.getDb();
     await db.transaction((Transaction txn) async {
       int id = await txn.rawInsert('INSERT OR REPLACE INTO '

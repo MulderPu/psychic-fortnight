@@ -23,6 +23,7 @@ dependencies:
   sizer: ^1.1.8
   sqflite: any
   path_provider: ^2.0.1
+  flutter_styled_toast: ^1.5.2+1
 
 dev_dependencies:
   flutter_driver:

@@ -1,11 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:genshin_calculator/bloc/task/task_bloc.dart';
 import 'package:genshin_calculator/utils/colors.dart';
 import 'package:genshin_calculator/utils/constant.dart';
 
 import 'customShape/circle.dart';
 
-class TaskView extends StatelessWidget {
-  const TaskView({Key key}) : super(key: key);
+class TaskView extends StatefulWidget {
+  TaskView({Key key}) : super(key: key);
+
+  @override
+  _TaskViewState createState() => _TaskViewState();
+}
+
+class _TaskViewState extends State<TaskView> {
+  TaskblocBloc taskBloc = TaskblocBloc();
+
+  @override
+  void initState() {
+    super.initState();
+    taskBloc.add(GetAllTasks());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,59 +35,68 @@ class TaskView extends StatelessWidget {
               pinned: true,
             ),
             SliverPadding(
-              padding: EdgeInsets.only(top: expandedHeight / 1.5),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    return Container(
-                      margin: EdgeInsets.only(
-                        left: PADDING_LARGE,
-                        right: PADDING_LARGE,
-                        top: 0,
-                        bottom: PADDING_LARGE,
-                      ),
-                      padding: EdgeInsets.all(PADDING_MEDIUM),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Icon(Icons.check_box),
-                          Text(
-                            '07.00 AM',
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                          Container(
-                            width: 180,
-                            child: Text(
-                              'Daily Quest',
-                              style: TextStyle(
-                                  color: Colors.grey,
-                                  decoration: TextDecoration.lineThrough),
-                            ),
-                          ),
-                          Icon(Icons.notifications),
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          stops: [0.015, 0.015],
-                          colors: [Colors.redAccent, Colors.white],
+                padding: EdgeInsets.only(top: expandedHeight / 1.5),
+                sliver: BlocBuilder<TaskblocBloc, TaskblocState>(
+                  cubit: taskBloc,
+                  builder: (context, state) {
+                    if (state is FinishGetAllTasks) {
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (BuildContext context, int index) {
+                            return Container(
+                              margin: EdgeInsets.only(
+                                left: PADDING_LARGE,
+                                right: PADDING_LARGE,
+                                top: 0,
+                                bottom: PADDING_LARGE,
+                              ),
+                              padding: EdgeInsets.all(PADDING_MEDIUM),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Icon(Icons.check_box),
+                                  Text(
+                                    '07.00 AM',
+                                    style: TextStyle(color: Colors.grey),
+                                  ),
+                                  Container(
+                                    width: 180,
+                                    child: Text(
+                                      state.tasks[index].title,
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          decoration:
+                                              TextDecoration.lineThrough),
+                                    ),
+                                  ),
+                                  Icon(Icons.notifications),
+                                ],
+                              ),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  stops: [0.015, 0.015],
+                                  colors: [Colors.redAccent, Colors.white],
+                                ),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(5.0),
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey,
+                                    blurRadius: 8.0,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          childCount: state.tasks.length,
                         ),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(5.0),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 8.0,
-                          ),
-                        ],
-                      ),
-                    );
+                      );
+                    }
+                    return SliverFillRemaining();
                   },
-                  childCount: 12,
-                ),
-              ),
-            )
+                ))
           ],
         ),
       ),
