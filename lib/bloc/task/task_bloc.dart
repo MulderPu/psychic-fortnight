@@ -18,10 +18,18 @@ class TaskblocBloc extends Bloc<TaskblocEvent, TaskblocState> {
     // TODO: implement mapEventToState
     if (event is GetAllTasks) {
       yield* _mapGetAllTasksToState(event);
+    } else if (event is RefreshAllTask) {
+      yield* _mapRefreshAllTasksToState(event);
     }
   }
 
   Stream<TaskblocState> _mapGetAllTasksToState(GetAllTasks event) async* {
+    final TaskDB _taskDB = TaskDB.get();
+    List<Tasks> tasks = await _taskDB.getTasks();
+    yield FinishGetAllTasks(tasks: tasks);
+  }
+
+  Stream<TaskblocState> _mapRefreshAllTasksToState(RefreshAllTask event) async* {
     final TaskDB _taskDB = TaskDB.get();
     List<Tasks> tasks = await _taskDB.getTasks();
     yield FinishGetAllTasks(tasks: tasks);

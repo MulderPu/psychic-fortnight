@@ -15,6 +15,7 @@ class TaskView extends StatefulWidget {
 
 class _TaskViewState extends State<TaskView> {
   TaskblocBloc taskBloc = TaskblocBloc();
+  bool _value = false;
 
   @override
   void initState() {
@@ -40,59 +41,117 @@ class _TaskViewState extends State<TaskView> {
                   cubit: taskBloc,
                   builder: (context, state) {
                     if (state is FinishGetAllTasks) {
-                      return SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (BuildContext context, int index) {
-                            return Container(
-                              margin: EdgeInsets.only(
-                                left: PADDING_LARGE,
-                                right: PADDING_LARGE,
-                                top: 0,
-                                bottom: PADDING_LARGE,
-                              ),
-                              padding: EdgeInsets.all(PADDING_MEDIUM),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Icon(Icons.check_box),
-                                  Text(
-                                    '07.00 AM',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                  Container(
-                                    width: 180,
-                                    child: Text(
-                                      state.tasks[index].title,
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          decoration:
-                                              TextDecoration.lineThrough),
-                                    ),
-                                  ),
-                                  Icon(Icons.notifications),
-                                ],
-                              ),
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  stops: [0.015, 0.015],
-                                  colors: [Colors.redAccent, Colors.white],
+                      return SliverFillRemaining(
+                        child: ListView.builder(
+                            itemCount: state.tasks.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              // access element from list using index
+                              // you can create and return a widget of your choice
+                              return CheckboxListTile(
+                                title: Text(
+                                  state.tasks[index].title,
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      decoration: TextDecoration.lineThrough),
                                 ),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(5.0),
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    blurRadius: 8.0,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                          childCount: state.tasks.length,
-                        ),
+                                onChanged: (bool value) {
+                                  print(" i ma here");
+                                  print("value $value");
+                                  setState(() {
+                                    _value = value;
+                                    print("_value $_value");
+                                  });
+                                },
+                                value: _value,
+                                secondary: const Icon(Icons.hourglass_empty),
+                              );
+                            }),
                       );
+
+                      // return SliverList(
+                      //   delegate: SliverChildBuilderDelegate(
+                      //     (BuildContext context, int index) {
+                      //       return CheckboxListTile(
+                      //         title: Text(
+                      //           state.tasks[index].title,
+                      //           style: TextStyle(
+                      //               color: Colors.grey,
+                      //               decoration: TextDecoration.lineThrough),
+                      //         ),
+                      //         onChanged: (bool value) {
+                      //           // setState(() {
+                      //             _value = !value;
+                      //           // });
+                      //         },
+                      //         value: _value,
+                      //         secondary: const Icon(Icons.hourglass_empty),
+                      //       );
+                      //       // return Container(
+                      //       //   margin: EdgeInsets.only(
+                      //       //     left: PADDING_LARGE,
+                      //       //     right: PADDING_LARGE,
+                      //       //     top: 0,
+                      //       //     bottom: PADDING_LARGE,
+                      //       //   ),
+                      //       //   padding: EdgeInsets.all(PADDING_MEDIUM),
+                      //       //   child: Row(
+                      //       //     mainAxisAlignment:
+                      //       //         MainAxisAlignment.spaceEvenly,
+                      //       //     children: <Widget>[
+                      //       //       // StatefulBuilder(builder:
+                      //       //       //     (BuildContext context,
+                      //       //       //         StateSetter setState) {
+                      //       //       //   return Center(
+                      //       //       //     child: CheckboxListTile(
+                      //       //       //       title: const Text('Animate Slowly'),
+                      //       //       //       value: _value,
+                      //       //       //       onChanged: (bool value) {
+                      //       //       //         setState(() {
+                      //       //       //           _value = !value;
+                      //       //       //         });
+                      //       //       //       },
+                      //       //       //       secondary:
+                      //       //       //           const Icon(Icons.hourglass_empty),
+                      //       //       //     ),
+                      //       //       //   );
+                      //       //       // }),
+                      //       //       Text(
+                      //       //         '07.00 AM',
+                      //       //         style: TextStyle(color: Colors.grey),
+                      //       //       ),
+                      //       //       Container(
+                      //       //         width: 180,
+                      //       //         child: Text(
+                      //       //           state.tasks[index].title,
+                      //       //           style: TextStyle(
+                      //       //               color: Colors.grey,
+                      //       //               decoration:
+                      //       //                   TextDecoration.lineThrough),
+                      //       //         ),
+                      //       //       ),
+                      //       //       Icon(Icons.notifications),
+                      //       //     ],
+                      //       //   ),
+                      //       //   decoration: BoxDecoration(
+                      //       //     gradient: LinearGradient(
+                      //       //       stops: [0.015, 0.015],
+                      //       //       colors: [Colors.redAccent, Colors.white],
+                      //       //     ),
+                      //       //     borderRadius: BorderRadius.all(
+                      //       //       Radius.circular(5.0),
+                      //       //     ),
+                      //       //     boxShadow: [
+                      //       //       BoxShadow(
+                      //       //         color: Colors.grey,
+                      //       //         blurRadius: 8.0,
+                      //       //       ),
+                      //       //     ],
+                      //       //   ),
+                      //       // );
+                      //     },
+                      //     childCount: state.tasks.length,
+                      //   ),
+                      // );
                     }
                     return SliverFillRemaining();
                   },
