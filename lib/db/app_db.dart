@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:genshin_calculator/db/taskDB/taskStatus.dart';
 import 'package:genshin_calculator/db/taskDB/tasks.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -35,9 +36,11 @@ class AppDatabase {
     _database = await openDatabase(path, version: 1,
         onCreate: (Database db, int version) async {
       await _createTaskTable(db);
+      await _createTaskStatusTable(db);
     }, onUpgrade: (Database db, int oldVersion, int newVersion) async {
       await db.execute("DROP TABLE ${Tasks.tblTask}");
       await _createTaskTable(db);
+      await _createTaskStatusTable(db);
     });
     didInit = true;
   }
@@ -50,5 +53,15 @@ class AppDatabase {
         "${Tasks.dbTitle} TEXT,"
         "${Tasks.dbComment} TEXT,"
         "${Tasks.dbIsDeleted} INTEGER);");
+  }
+
+  Future _createTaskStatusTable(Database db) {
+    var sql = "CREATE TABLE ${TaskStatus.tblTaskStatus} ("
+        "${TaskStatus.dbId} INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "${TaskStatus.dbUpdated} LONG,"
+        "${TaskStatus.dbCreated} LONG,"
+        "${TaskStatus.dbTaskId} INTEGER,"
+        "${TaskStatus.dbStatus} INTEGER);";
+    return db.execute(sql);
   }
 }

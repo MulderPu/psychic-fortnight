@@ -1,3 +1,5 @@
+import 'package:genshin_calculator/db/taskDB/taskStatus.dart';
+import 'package:genshin_calculator/db/taskDB/taskStatus_db.dart';
 import 'package:genshin_calculator/db/taskDB/tasks.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -5,6 +7,7 @@ import '../app_db.dart';
 
 class TaskDB {
   static final TaskDB _taskDb = TaskDB._internal(AppDatabase.get());
+  TaskStatusDB _taskStatusDB;
 
   AppDatabase _appDatabase;
 
@@ -104,13 +107,12 @@ class TaskDB {
       int id = await txn.rawInsert('INSERT OR REPLACE INTO '
           '${Tasks.tblTask}(${Tasks.dbId},${Tasks.dbTitle},${Tasks.dbComment})'
           ' VALUES(${task.id}, "${task.title}", "${task.comment}")');
-      // if (id > 0 && labelIDs != null && labelIDs.length > 0) {
-      //   labelIDs.forEach((labelId) {
-      //     txn.rawInsert('INSERT OR REPLACE INTO '
-      //         '${TaskLabels.tblTaskLabel}(${TaskLabels.dbId},${TaskLabels.dbTaskId},${TaskLabels.dbLabelId})'
-      //         ' VALUES(null, $id, $labelId)');
-      //   });
-      // }
+      if (id > 0) {
+        var task = TaskStatus.create(
+          taskId: id,
+        );
+        _taskStatusDB.createTaskStatus(task);
+      }
     });
   }
 }
