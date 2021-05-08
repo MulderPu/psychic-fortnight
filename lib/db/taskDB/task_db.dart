@@ -103,16 +103,21 @@ class TaskDB {
   /// Inserts or replaces the task.
   Future updateTask(Tasks task) async {
     var db = await _appDatabase.getDb();
+    bool status = false;
     await db.transaction((Transaction txn) async {
       int id = await txn.rawInsert('INSERT OR REPLACE INTO '
           '${Tasks.tblTask}(${Tasks.dbId},${Tasks.dbTitle},${Tasks.dbComment})'
           ' VALUES(${task.id}, "${task.title}", "${task.comment}")');
-      if (id > 0) {
-        var task = TaskStatus.create(
+      if (id > 0 && id != null) {
+        var taskStatus = TaskStatus.create(
           taskId: id,
         );
-        _taskStatusDB.createTaskStatus(task);
+        txn.rawInsert('INSERT OR REPLACE INTO '
+            '${TaskStatus.tblTaskStatus}(${TaskStatus.dbId},${TaskStatus.dbTaskId},${TaskStatus.dbStatus})'
+            ' VALUES(null, ${taskStatus.taskId}, ${taskStatus.status})');
       }
+      status = true;
     });
+    return status;
   }
 }

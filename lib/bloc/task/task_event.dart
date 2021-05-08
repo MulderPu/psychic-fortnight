@@ -6,3 +6,5 @@ abstract class TaskblocEvent {}
 class GetAllTasks extends TaskblocEvent {}
 
 class RefreshAllTask extends TaskblocEvent {}
+
+class InitTasks extends TaskblocEvent {}

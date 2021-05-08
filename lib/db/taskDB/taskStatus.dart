@@ -8,8 +8,7 @@ class TaskStatus {
   static final dbTaskId = "task_id";
   static final dbStatus = "status";
 
-  int id, created, updated, taskId;
-  TaskStatusEnum status;
+  int id, created, updated, taskId, status;
 
   TaskStatus.create(
       {@required this.taskId, this.created = -1, this.updated = -1}) {
@@ -17,7 +16,7 @@ class TaskStatus {
       this.created = DateTime.now().millisecondsSinceEpoch;
       this.updated = DateTime.now().millisecondsSinceEpoch;
     }
-    this.status = TaskStatusEnum.PENDING;
+    this.status = TaskStatusEnum.PENDING.index;
   }
 
   bool operator ==(o) => o is TaskStatus && o.id == id;
@@ -26,7 +25,7 @@ class TaskStatus {
     @required this.taskId,
     this.created,
     this.updated = -1,
-    this.status = TaskStatusEnum.PENDING,
+    this.status,
   }) {
     if (this.updated == -1) {
       this.updated = DateTime.now().millisecondsSinceEpoch;

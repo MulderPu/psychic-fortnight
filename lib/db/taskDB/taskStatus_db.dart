@@ -47,11 +47,12 @@ class TaskStatusDB {
   }
 
   Future createTaskStatus(TaskStatus taskStatus) async {
-    var db = await _appDatabase.getDb();
-    await db.transaction((Transaction txn) async {
-      await txn.rawInsert('INSERT OR REPLACE INTO '
-          '${TaskStatus.tblTaskStatus}(${TaskStatus.dbId},${TaskStatus.dbTaskId},${TaskStatus.dbStatus})'
-          ' VALUES(null, ${taskStatus.taskId}, ${taskStatus.status})');
-    });
+    print(taskStatus);
+    // var db = await _appDatabase.getDb();
+    // await db.transaction((Transaction txn) async {
+    //   await txn.rawInsert('INSERT OR REPLACE INTO '
+    //       '${TaskStatus.tblTaskStatus}(${TaskStatus.dbId},${TaskStatus.dbTaskId},${TaskStatus.dbStatus})'
+    //       ' VALUES(null, ${taskStatus.taskId}, ${taskStatus.status})');
+    // });
   }
 }
