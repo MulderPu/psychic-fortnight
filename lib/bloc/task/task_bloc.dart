@@ -38,14 +38,35 @@ class TaskblocBloc extends Bloc<TaskblocEvent, TaskblocState> {
 
   Stream<TaskblocState> _mapInitTasksToState(InitTasks event) async* {
     final TaskDB _taskDB = TaskDB.get();
-    var task = Tasks.create(
+    List<Tasks> taskList = [];
+    // initial tasks
+    Tasks task = Tasks.create(
       title: 'Daily Sudden Event',
       comment: 'Do max 10 times to gain friendship points.',
     );
-    var result = await _taskDB.updateTask(task);
-    if (result) {
-      add(GetAllTasks());
-    }
+    taskList.add(task);
+    Tasks task2 = Tasks.create(
+      title: 'Daily Quest',
+      comment: 'Do all 4 and get primo.',
+    );
+    taskList.add(task2);
+    Tasks task3 = Tasks.create(
+      title: 'Daily Web Check-in',
+      comment: 'Daily checking on website to get reward.',
+    );
+    taskList.add(task3);
+
+    // array inject
+    int count = 0;
+    taskList.forEach((element) async {
+      var result = await _taskDB.updateTask(element);
+      if (result) {
+        count = count + 1;
+        if (count == taskList.length) {
+          add(GetAllTasks());
+        }
+      }
+    });
   }
 
   Stream<TaskblocState> _mapRefreshAllTasksToState(
