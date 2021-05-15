@@ -32,18 +32,22 @@ class TaskDB {
     //       : "$whereClause AND $taskWhereClause";
     // }
 
-    var result = await db.rawQuery('SELECT ${Tasks.tblTask}.* '
+    var result = await db.rawQuery(
+        'SELECT ${Tasks.tblTask}.*, ${TaskStatus.tblTaskStatus}.${TaskStatus.dbStatus} '
         'FROM ${Tasks.tblTask} '
-        // 'LEFT JOIN ${Label.tblLabel} ON ${Label.tblLabel}.${Label.dbId}=${TaskLabels.tblTaskLabel}.${TaskLabels.dbLabelId} '
-        '$whereClause ORDER BY ${Tasks.tblTask}.${Tasks.dbId} ASC;');
+        'INNER JOIN ${TaskStatus.tblTaskStatus} ON ${Tasks.tblTask}.${Tasks.dbId} = ${TaskStatus.tblTaskStatus}.${TaskStatus.dbTaskId} $whereClause ORDER BY ${Tasks.tblTask}.${Tasks.dbId} ASC;');
 
     return _bindData(result);
   }
 
   List<Tasks> _bindData(List<Map<String, dynamic>> result) {
+    // * print check result
+    print(result);
+
     List<Tasks> tasks = [];
     for (Map<String, dynamic> item in result) {
       var myTask = Tasks.fromMap(item);
+      myTask.statusIndex = item[TaskStatus.dbStatus];
       // myTask.projectName = item[Project.dbName];
       // myTask.projectColor = item[Project.dbColorCode];
       // var labelComma = item["labelNames"];

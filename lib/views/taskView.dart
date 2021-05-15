@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:genshin_calculator/bloc/task/task_bloc.dart';
+import 'package:genshin_calculator/db/taskDB/taskStatus.dart';
 import 'package:genshin_calculator/utils/colors.dart';
 import 'package:genshin_calculator/utils/constant.dart';
 
@@ -15,7 +16,7 @@ class TaskView extends StatefulWidget {
 
 class _TaskViewState extends State<TaskView> {
   TaskblocBloc taskBloc = TaskblocBloc();
-  bool _value = false;
+  // bool _value = false;
 
   @override
   void initState() {
@@ -41,7 +42,6 @@ class _TaskViewState extends State<TaskView> {
                   cubit: taskBloc,
                   builder: (context, state) {
                     if (state is FinishGetAllTasks) {
-                      print(state.tasks);
                       return SliverFillRemaining(
                         child: ListView.builder(
                             itemCount: state.tasks.length,
@@ -56,14 +56,18 @@ class _TaskViewState extends State<TaskView> {
                                       decoration: TextDecoration.lineThrough),
                                 ),
                                 onChanged: (bool value) {
-                                  print(" i ma here");
-                                  print("value $value");
+                                  // * update checkbox state
                                   setState(() {
-                                    _value = value;
-                                    print("_value $_value");
+                                    state.tasks[index].statusIndex =
+                                        value == true
+                                            ? TaskStatusEnum.COMPLETE.index
+                                            : TaskStatusEnum.PENDING.index;
                                   });
                                 },
-                                value: _value,
+                                value: state.tasks[index].statusIndex ==
+                                        TaskStatusEnum.COMPLETE.index
+                                    ? true
+                                    : false,
                                 secondary: const Icon(Icons.hourglass_empty),
                               );
                             }),

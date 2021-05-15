@@ -14,7 +14,7 @@ class Tasks {
   static final deleted = 1;
 
   String title, comment;
-  int id, created, updated, isDeleted;
+  int id, created, updated, isDeleted, statusIndex;
   // TaskStatus tasksStatus;
   // List<String> labelList = List<String>();
 
