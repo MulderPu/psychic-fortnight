@@ -8,3 +8,15 @@ class GetAllTasks extends TaskblocEvent {}
 class RefreshAllTask extends TaskblocEvent {}
 
 class InitTasks extends TaskblocEvent {}
+
+class UpdateTaskStatus extends TaskblocEvent {
+  final int taskID;
+  final int statusIndex;
+
+  UpdateTaskStatus({this.taskID, this.statusIndex});
+
+  @override
+  String toString() {
+    return "Update task status.";
+  }
+}

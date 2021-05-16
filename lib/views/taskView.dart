@@ -57,12 +57,18 @@ class _TaskViewState extends State<TaskView> {
                                 ),
                                 onChanged: (bool value) {
                                   // * update checkbox state
-                                  setState(() {
-                                    state.tasks[index].statusIndex =
-                                        value == true
-                                            ? TaskStatusEnum.COMPLETE.index
-                                            : TaskStatusEnum.PENDING.index;
-                                  });
+                                  taskBloc.add(UpdateTaskStatus(
+                                    taskID: state.tasks[index].id,
+                                    statusIndex: value == true
+                                        ? TaskStatusEnum.COMPLETE.index
+                                        : TaskStatusEnum.PENDING.index,
+                                  ));
+                                  // setState(() {
+                                  //   state.tasks[index].statusIndex =
+                                  //       value == true
+                                  //           ? TaskStatusEnum.COMPLETE.index
+                                  //           : TaskStatusEnum.PENDING.index;
+                                  // });
                                 },
                                 value: state.tasks[index].statusIndex ==
                                         TaskStatusEnum.COMPLETE.index

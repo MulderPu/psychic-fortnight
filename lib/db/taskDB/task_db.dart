@@ -42,12 +42,11 @@ class TaskDB {
 
   List<Tasks> _bindData(List<Map<String, dynamic>> result) {
     // * print check result
-    print(result);
-
     List<Tasks> tasks = [];
     for (Map<String, dynamic> item in result) {
       var myTask = Tasks.fromMap(item);
       myTask.statusIndex = item[TaskStatus.dbStatus];
+      // myTask.statusID = item["statusID"];
       // myTask.projectName = item[Project.dbName];
       // myTask.projectColor = item[Project.dbColorCode];
       // var labelComma = item["labelNames"];

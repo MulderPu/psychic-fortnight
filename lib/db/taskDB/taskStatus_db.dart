@@ -38,11 +38,11 @@ class TaskStatusDB {
     return tasks;
   }
 
-  Future updateStatusTask(int taskID, TaskStatusEnum status) async {
+  Future updateStatusTask(int taskID, int statusIndex) async {
     var db = await _appDatabase.getDb();
     await db.transaction((Transaction txn) async {
       await txn.rawQuery(
-          "UPDATE ${TaskStatus.tblTaskStatus} SET ${TaskStatus.dbStatus} = '${status.index}' WHERE ${TaskStatus.dbId} = '$taskID'");
+          "UPDATE ${TaskStatus.tblTaskStatus} SET ${TaskStatus.dbStatus} = '$statusIndex' WHERE ${TaskStatus.dbTaskId} = '$taskID'");
     });
   }
 

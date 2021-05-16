@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:genshin_calculator/db/taskDB/taskStatus.dart';
+import 'package:genshin_calculator/db/taskDB/taskStatus_db.dart';
 import 'package:genshin_calculator/db/taskDB/task_db.dart';
 import 'package:genshin_calculator/db/taskDB/tasks.dart';
 import 'package:meta/meta.dart';
@@ -22,7 +24,16 @@ class TaskblocBloc extends Bloc<TaskblocEvent, TaskblocState> {
       yield* _mapRefreshAllTasksToState(event);
     } else if (event is InitTasks) {
       yield* _mapInitTasksToState(event);
+    } else if (event is UpdateTaskStatus) {
+      yield* _mapUpdateTaskStatus(event);
     }
+  }
+
+  Stream<TaskblocState> _mapUpdateTaskStatus(UpdateTaskStatus event) async* {
+    final TaskStatusDB _taskStatusDB = TaskStatusDB.get();
+    _taskStatusDB
+        .updateStatusTask(event.taskID, event.statusIndex)
+        .then((value) => {add(GetAllTasks())});
   }
 
   Stream<TaskblocState> _mapGetAllTasksToState(GetAllTasks event) async* {
@@ -30,6 +41,7 @@ class TaskblocBloc extends Bloc<TaskblocEvent, TaskblocState> {
     List<Tasks> tasks = await _taskDB.getTasks();
 
     if (tasks.isEmpty) {
+      print(tasks);
       // inject initial data
       add(InitTasks());
     }
