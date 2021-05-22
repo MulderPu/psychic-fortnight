@@ -4,6 +4,7 @@ import 'package:genshin_calculator/bloc/task/task_bloc.dart';
 import 'package:genshin_calculator/db/taskDB/taskStatus.dart';
 import 'package:genshin_calculator/utils/colors.dart';
 import 'package:genshin_calculator/utils/constant.dart';
+import 'package:sizer/sizer.dart';
 
 import 'customShape/circle.dart';
 
@@ -16,7 +17,6 @@ class TaskView extends StatefulWidget {
 
 class _TaskViewState extends State<TaskView> {
   TaskblocBloc taskBloc = TaskblocBloc();
-  // bool _value = false;
 
   @override
   void initState() {
@@ -48,106 +48,51 @@ class _TaskViewState extends State<TaskView> {
                             itemBuilder: (BuildContext context, int index) {
                               // access element from list using index
                               // you can create and return a widget of your choice
-                              return CheckboxListTile(
-                                title: Text(
-                                  state.tasks[index].title,
-                                  style: TextStyle(
-                                      color: Colors.grey,
-                                      decoration: TextDecoration.lineThrough),
+                              return Container(
+                                margin: EdgeInsets.only(
+                                  left: PADDING_LARGE,
+                                  right: PADDING_LARGE,
+                                  top: 0,
+                                  bottom: PADDING_LARGE,
                                 ),
-                                onChanged: (bool value) {
-                                  // * update checkbox state
-                                  taskBloc.add(UpdateTaskStatus(
-                                    taskID: state.tasks[index].id,
-                                    statusIndex: value == true
-                                        ? TaskStatusEnum.COMPLETE.index
-                                        : TaskStatusEnum.PENDING.index,
-                                  ));
-                                  // setState(() {
-                                  //   state.tasks[index].statusIndex =
-                                  //       value == true
-                                  //           ? TaskStatusEnum.COMPLETE.index
-                                  //           : TaskStatusEnum.PENDING.index;
-                                  // });
-                                },
-                                value: state.tasks[index].statusIndex ==
-                                        TaskStatusEnum.COMPLETE.index
-                                    ? true
-                                    : false,
-                                secondary: const Icon(Icons.hourglass_empty),
+                                decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                    stops: [0.015, 0.015],
+                                    colors: [lightPurple, Colors.white],
+                                  ),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(5.0),
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      blurRadius: 8.0,
+                                    ),
+                                  ],
+                                ),
+                                child: CheckboxListTile(
+                                  title: Text(
+                                    state.tasks[index].title,
+                                    style: TextStyle(fontSize: FONT_LABEL.sp),
+                                  ),
+                                  onChanged: (bool value) {
+                                    // * update checkbox state
+                                    taskBloc.add(UpdateTaskStatus(
+                                      taskID: state.tasks[index].id,
+                                      statusIndex: value == true
+                                          ? TaskStatusEnum.COMPLETE.index
+                                          : TaskStatusEnum.PENDING.index,
+                                    ));
+                                  },
+                                  value: state.tasks[index].statusIndex ==
+                                          TaskStatusEnum.COMPLETE.index
+                                      ? true
+                                      : false,
+                                  secondary: const Icon(Icons.notifications),
+                                ),
                               );
                             }),
                       );
-
-                      // return SliverList(
-                      //   delegate: SliverChildBuilderDelegate(
-                      //     (BuildContext context, int index) {
-                      // return Container(
-                      //   margin: EdgeInsets.only(
-                      //     left: PADDING_LARGE,
-                      //     right: PADDING_LARGE,
-                      //     top: 0,
-                      //     bottom: PADDING_LARGE,
-                      //   ),
-                      //   padding: EdgeInsets.all(PADDING_MEDIUM),
-                      //   child: Row(
-                      //     mainAxisAlignment:
-                      //         MainAxisAlignment.spaceEvenly,
-                      //     children: <Widget>[
-                      //       // StatefulBuilder(builder:
-                      //       //     (BuildContext context,
-                      //       //         StateSetter setState) {
-                      //       //   return Center(
-                      //       //     child: CheckboxListTile(
-                      //       //       title: const Text('Animate Slowly'),
-                      //       //       value: _value,
-                      //       //       onChanged: (bool value) {
-                      //       //         setState(() {
-                      //       //           _value = !value;
-                      //       //         });
-                      //       //       },
-                      //       //       secondary:
-                      //       //           const Icon(Icons.hourglass_empty),
-                      //       //     ),
-                      //       //   );
-                      //       // }),
-                      //       Text(
-                      //         '07.00 AM',
-                      //         style: TextStyle(color: Colors.grey),
-                      //       ),
-                      //       Container(
-                      //         width: 180,
-                      //         child: Text(
-                      //           state.tasks[index].title,
-                      //           style: TextStyle(
-                      //               color: Colors.grey,
-                      //               decoration:
-                      //                   TextDecoration.lineThrough),
-                      //         ),
-                      //       ),
-                      //       Icon(Icons.notifications),
-                      //     ],
-                      //   ),
-                      //   decoration: BoxDecoration(
-                      //     gradient: LinearGradient(
-                      //       stops: [0.015, 0.015],
-                      //       colors: [Colors.redAccent, Colors.white],
-                      //     ),
-                      //     borderRadius: BorderRadius.all(
-                      //       Radius.circular(5.0),
-                      //     ),
-                      //     boxShadow: [
-                      //       BoxShadow(
-                      //         color: Colors.grey,
-                      //         blurRadius: 8.0,
-                      //       ),
-                      //     ],
-                      //   ),
-                      // );
-                      //     },
-                      //     childCount: state.tasks.length,
-                      //   ),
-                      // );
                     }
                     return SliverFillRemaining();
                   },
