@@ -1,6 +1,7 @@
 import 'package:genshin_calculator/db/taskDB/taskStatus.dart';
 import 'package:genshin_calculator/db/taskDB/taskStatus_db.dart';
 import 'package:genshin_calculator/db/taskDB/tasks.dart';
+import 'package:intl/intl.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../app_db.dart';
@@ -24,24 +25,53 @@ class TaskDB {
     var db = await _appDatabase.getDb();
     var whereClause = "";
 
-    // if (taskStatus != null) {
-    //   var taskWhereClause =
-    //       "${Tasks.tblTask}.${Tasks.dbStatus} = ${taskStatus.index}";
-    //   whereClause = whereClause.isEmpty
-    //       ? "WHERE $taskWhereClause"
-    //       : "$whereClause AND $taskWhereClause";
-    // }
-
     var result = await db.rawQuery(
-        'SELECT ${Tasks.tblTask}.*, ${TaskStatus.tblTaskStatus}.${TaskStatus.dbStatus} '
+        'SELECT ${Tasks.tblTask}.*, ${TaskStatus.tblTaskStatus}.${TaskStatus.dbStatus}, ${TaskStatus.tblTaskStatus}.${TaskStatus.dbUpdated} as update_status '
         'FROM ${Tasks.tblTask} '
         'INNER JOIN ${TaskStatus.tblTaskStatus} ON ${Tasks.tblTask}.${Tasks.dbId} = ${TaskStatus.tblTaskStatus}.${TaskStatus.dbTaskId} $whereClause ORDER BY ${Tasks.tblTask}.${Tasks.dbId} ASC;');
+
+    // * check result
+    // * if next day, reset checkbox result
+    bool refreshTask = false;
+    for (var item in result) {
+      var epoch = item['update_status'];
+      if (epoch != null) {
+        DateTime date = new DateTime.fromMillisecondsSinceEpoch(epoch);
+        // * checking datetime here
+        var currentDateTime = DateTime.now();
+        // ! simulate current date for testing
+        // currentDateTime = currentDateTime.add(Duration(days: 1));
+
+        var formatStoreDatetime =
+            DateTime.parse(DateFormat('yyyy-MM-dd').format(date));
+        var formatCurrentDatetime =
+            DateTime.parse(DateFormat('yyyy-MM-dd').format(currentDateTime));
+
+        if (formatCurrentDatetime.difference(formatStoreDatetime).inDays > 0) {
+          refreshTask = true;
+
+          final TaskStatusDB _taskStatusDB = TaskStatusDB.get();
+          await _taskStatusDB.updateStatusTask(
+              item[Tasks.dbId], TaskStatusEnum.PENDING.index);
+        }
+      }
+    }
+
+    if (refreshTask) {
+      result = await db.rawQuery(
+          'SELECT ${Tasks.tblTask}.*, ${TaskStatus.tblTaskStatus}.${TaskStatus.dbStatus}, ${TaskStatus.tblTaskStatus}.${TaskStatus.dbUpdated} as update_status '
+          'FROM ${Tasks.tblTask} '
+          'INNER JOIN ${TaskStatus.tblTaskStatus} ON ${Tasks.tblTask}.${Tasks.dbId} = ${TaskStatus.tblTaskStatus}.${TaskStatus.dbTaskId} $whereClause ORDER BY ${Tasks.tblTask}.${Tasks.dbId} ASC;');
+      // print("refresh task");
+      // print(result);
+    }
 
     return _bindData(result);
   }
 
   List<Tasks> _bindData(List<Map<String, dynamic>> result) {
     // * print check result
+    // print(result);
     List<Tasks> tasks = [];
     for (Map<String, dynamic> item in result) {
       var myTask = Tasks.fromMap(item);
@@ -57,35 +87,6 @@ class TaskDB {
     }
     return tasks;
   }
-
-  // Future<List<Tasks>> getTasksByProject(int projectId,
-  //     {TaskStatus status}) async {
-  //   var db = await _appDatabase.getDb();
-  //   String whereStatus = status != null
-  //       ? "AND ${Tasks.tblTask}.${Tasks.dbStatus}=${status.index}"
-  //       : "";
-  //   var result = await db.rawQuery(
-  //       'SELECT ${Tasks.tblTask}.*,${Project.tblProject}.${Project.dbName},${Project.tblProject}.${Project.dbColorCode},group_concat(${Label.tblLabel}.${Label.dbName}) as labelNames '
-  //       'FROM ${Tasks.tblTask} LEFT JOIN ${TaskLabels.tblTaskLabel} ON ${TaskLabels.tblTaskLabel}.${TaskLabels.dbTaskId}=${Tasks.tblTask}.${Tasks.dbId} '
-  //       'LEFT JOIN ${Label.tblLabel} ON ${Label.tblLabel}.${Label.dbId}=${TaskLabels.tblTaskLabel}.${TaskLabels.dbLabelId} '
-  //       'INNER JOIN ${Project.tblProject} ON ${Tasks.tblTask}.${Tasks.dbProjectID} = ${Project.tblProject}.${Project.dbId} WHERE ${Tasks.tblTask}.${Tasks.dbProjectID}=$projectId $whereStatus GROUP BY ${Tasks.tblTask}.${Tasks.dbId} ORDER BY ${Tasks.tblTask}.${Tasks.dbDueDate} ASC;');
-
-  //   return _bindData(result);
-  // }
-
-  // Future<List<Tasks>> getTasksByLabel(String labelName,
-  //     {TaskStatus status}) async {
-  //   var db = await _appDatabase.getDb();
-  //   String whereStatus = status != null
-  //       ? "AND ${Tasks.tblTask}.${Tasks.dbStatus}=${TaskStatus.PENDING.index}"
-  //       : "";
-  //   var result = await db.rawQuery(
-  //       'SELECT ${Tasks.tblTask}.*,${Project.tblProject}.${Project.dbName},${Project.tblProject}.${Project.dbColorCode},group_concat(${Label.tblLabel}.${Label.dbName}) as labelNames FROM ${Tasks.tblTask} LEFT JOIN ${TaskLabels.tblTaskLabel} ON ${TaskLabels.tblTaskLabel}.${TaskLabels.dbTaskId}=${Tasks.tblTask}.${Tasks.dbId} '
-  //       'LEFT JOIN ${Label.tblLabel} ON ${Label.tblLabel}.${Label.dbId}=${TaskLabels.tblTaskLabel}.${TaskLabels.dbLabelId} '
-  //       'INNER JOIN ${Project.tblProject} ON ${Tasks.tblTask}.${Tasks.dbProjectID} = ${Project.tblProject}.${Project.dbId} WHERE ${Tasks.tblTask}.${Tasks.dbProjectID}=${Project.tblProject}.${Project.dbId} $whereStatus GROUP BY ${Tasks.tblTask}.${Tasks.dbId} having labelNames LIKE "%$labelName%" ORDER BY ${Tasks.tblTask}.${Tasks.dbDueDate} ASC;');
-
-  //   return _bindData(result);
-  // }
 
   Future deleteTask(int taskID) async {
     var db = await _appDatabase.getDb();
@@ -116,8 +117,8 @@ class TaskDB {
           taskId: id,
         );
         txn.rawInsert('INSERT OR REPLACE INTO '
-            '${TaskStatus.tblTaskStatus}(${TaskStatus.dbId},${TaskStatus.dbTaskId},${TaskStatus.dbStatus})'
-            ' VALUES(null, ${taskStatus.taskId}, ${taskStatus.status})');
+            '${TaskStatus.tblTaskStatus}(${TaskStatus.dbId},${TaskStatus.dbTaskId},${TaskStatus.dbStatus},${TaskStatus.dbCreated},${TaskStatus.dbUpdated})'
+            ' VALUES(null, ${taskStatus.taskId}, ${taskStatus.status}, ${taskStatus.created}, ${taskStatus.updated})');
       }
       status = true;
     });

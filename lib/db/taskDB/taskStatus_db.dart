@@ -12,8 +12,6 @@ class TaskStatusDB {
   //private internal constructor to make it singleton
   TaskStatusDB._internal(this._appDatabase);
 
-  //static TaskStatusDB get TaskStatusDB => _TaskStatusDB;
-
   static TaskStatusDB get() {
     return _taskStatusDB;
   }

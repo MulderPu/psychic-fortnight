@@ -41,7 +41,6 @@ class TaskblocBloc extends Bloc<TaskblocEvent, TaskblocState> {
     List<Tasks> tasks = await _taskDB.getTasks();
 
     if (tasks.isEmpty) {
-      print(tasks);
       // inject initial data
       add(InitTasks());
     }
@@ -67,6 +66,11 @@ class TaskblocBloc extends Bloc<TaskblocEvent, TaskblocState> {
       comment: 'Daily checking on website to get reward.',
     );
     taskList.add(task3);
+    Tasks task4 = Tasks.create(
+      title: 'Daily Artifact Run',
+      comment: 'Daily collect artifact on map.',
+    );
+    taskList.add(task4);
 
     // array inject
     int count = 0;
