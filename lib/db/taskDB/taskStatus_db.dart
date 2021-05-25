@@ -38,9 +38,10 @@ class TaskStatusDB {
 
   Future updateStatusTask(int taskID, int statusIndex) async {
     var db = await _appDatabase.getDb();
+    var currentEpoch = DateTime.now().millisecondsSinceEpoch;
     await db.transaction((Transaction txn) async {
       await txn.rawQuery(
-          "UPDATE ${TaskStatus.tblTaskStatus} SET ${TaskStatus.dbStatus} = '$statusIndex' WHERE ${TaskStatus.dbTaskId} = '$taskID'");
+          "UPDATE ${TaskStatus.tblTaskStatus} SET ${TaskStatus.dbStatus} = '$statusIndex', ${TaskStatus.dbUpdated} = '$currentEpoch' WHERE ${TaskStatus.dbTaskId} = '$taskID'");
     });
   }
 
