@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:genshin_calculator/cubit/suddenmission_cubit.dart';
 import 'package:genshin_calculator/models/clickHistory.dart';
+import 'package:genshin_calculator/utils/colors.dart';
 import 'package:genshin_calculator/utils/constant.dart';
 import 'package:genshin_calculator/views/widgets/gradientAppBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -120,7 +121,7 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                   children: [
                     FloatingActionButton(
                       heroTag: 'da',
-                      backgroundColor: Colors.purple,
+                      backgroundColor: lightPurple,
                       onPressed: () => context
                           .read<SuddenmissionCubit>()
                           .decrement(suddenMissionCount - 1),
@@ -139,7 +140,7 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                     suddenMissionCount != 10
                         ? FloatingActionButton(
                             heroTag: 'fas',
-                            backgroundColor: Colors.purple,
+                            backgroundColor: lightPurple,
                             onPressed: () {
                               context
                                   .read<SuddenmissionCubit>()
@@ -189,7 +190,7 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                       style: ElevatedButton.styleFrom(
                         textStyle: TextStyle(fontSize: FONT_BUTTON.sp),
                         onPrimary: Colors.white,
-                        primary: Colors.purple,
+                        primary: lightPurple,
                         onSurface: Colors.grey,
                         minimumSize: Size(double.infinity, 50),
                         elevation: 10,

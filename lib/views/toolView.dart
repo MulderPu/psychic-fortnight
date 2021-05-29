@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:genshin_calculator/utils/colors.dart';
 import 'package:genshin_calculator/utils/constant.dart';
 import 'package:genshin_calculator/views/resinTimeView.dart';
 import 'package:genshin_calculator/views/suddenMissionView.dart';
@@ -43,7 +44,7 @@ class _ToolViewState extends State<ToolView> {
                   style: ElevatedButton.styleFrom(
                     textStyle: TextStyle(fontSize: FONT_BUTTON.sp),
                     onPrimary: Colors.white,
-                    primary: Colors.purple,
+                    primary: lightPurple,
                     onSurface: Colors.grey,
                     minimumSize: Size(double.infinity, 50),
                     elevation: 10,
@@ -69,7 +70,7 @@ class _ToolViewState extends State<ToolView> {
                   style: ElevatedButton.styleFrom(
                     textStyle: TextStyle(fontSize: FONT_BUTTON.sp),
                     onPrimary: Colors.white,
-                    primary: Colors.purple,
+                    primary: lightPurple,
                     onSurface: Colors.grey,
                     minimumSize: Size(double.infinity, 50),
                     elevation: 10,

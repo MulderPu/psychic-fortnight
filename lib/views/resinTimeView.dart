@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:genshin_calculator/utils/colors.dart';
 import 'package:genshin_calculator/utils/constant.dart';
 import 'package:genshin_calculator/utils/keys.dart';
 import 'package:genshin_calculator/views/widgets/gradientAppBar.dart';
@@ -116,7 +117,7 @@ class _ResinTimeViewState extends State<ResinTimeView> {
                         style: ElevatedButton.styleFrom(
                           textStyle: TextStyle(fontSize: FONT_BUTTON.sp),
                           onPrimary: Colors.white,
-                          primary: Colors.purple,
+                          primary: lightPurple,
                           onSurface: Colors.grey,
                           minimumSize: Size(double.infinity, 50),
                           elevation: 10,

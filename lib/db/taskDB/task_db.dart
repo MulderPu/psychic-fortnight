@@ -62,8 +62,6 @@ class TaskDB {
           'SELECT ${Tasks.tblTask}.*, ${TaskStatus.tblTaskStatus}.${TaskStatus.dbStatus}, ${TaskStatus.tblTaskStatus}.${TaskStatus.dbUpdated} as update_status '
           'FROM ${Tasks.tblTask} '
           'INNER JOIN ${TaskStatus.tblTaskStatus} ON ${Tasks.tblTask}.${Tasks.dbId} = ${TaskStatus.tblTaskStatus}.${TaskStatus.dbTaskId} $whereClause ORDER BY ${Tasks.tblTask}.${Tasks.dbId} ASC;');
-      // print("refresh task");
-      // print(result);
     }
 
     return _bindData(result);
@@ -95,14 +93,6 @@ class TaskDB {
           "UPDATE ${Tasks.tblTask} SET ${Tasks.dbIsDeleted} = '${Tasks.deleted}' WHERE ${Tasks.dbId} = '$taskID'");
     });
   }
-
-  // Future updateTaskStatus(int taskID, TaskStatus status) async {
-  //   var db = await _appDatabase.getDb();
-  //   await db.transaction((Transaction txn) async {
-  //     await txn.rawQuery(
-  //         "UPDATE ${Tasks.tblTask} SET ${Tasks.dbStatus} = '${status.index}' WHERE ${Tasks.dbId} = '$taskID'");
-  //   });
-  // }
 
   /// Inserts or replaces the task.
   Future updateTask(Tasks task) async {

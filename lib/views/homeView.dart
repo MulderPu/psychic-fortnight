@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:genshin_calculator/utils/colors.dart';
 import 'package:genshin_calculator/views/createTaskView.dart';
 import 'package:genshin_calculator/views/taskView.dart';
 import 'package:genshin_calculator/views/toolView.dart';
@@ -32,7 +33,7 @@ class _HomeViewState extends State<HomeView> {
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.list_bullet_below_rectangle),
         title: ("Task"),
-        activeColorPrimary: Colors.purple,
+        activeColorPrimary: lightPurple,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
@@ -41,13 +42,13 @@ class _HomeViewState extends State<HomeView> {
           color: Colors.white,
         ),
         title: null,
-        activeColorPrimary: Colors.purple,
+        activeColorPrimary: lightPurple,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
         icon: Icon(CupertinoIcons.wrench),
         title: ("Tools"),
-        activeColorPrimary: Colors.purple,
+        activeColorPrimary: lightPurple,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
     ];
