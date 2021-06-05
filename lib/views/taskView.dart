@@ -9,7 +9,9 @@ import 'package:sizer/sizer.dart';
 import 'customShape/circle.dart';
 
 class TaskView extends StatefulWidget {
-  TaskView({Key key}) : super(key: key);
+  final bool isRefresh;
+
+  TaskView({Key key, this.isRefresh}) : super(key: key);
 
   @override
   _TaskViewState createState() => _TaskViewState();
@@ -21,12 +23,18 @@ class _TaskViewState extends State<TaskView> {
   @override
   void initState() {
     super.initState();
+
+    print('get all task');
     taskBloc.add(GetAllTasks());
   }
 
   @override
   Widget build(BuildContext context) {
     final double expandedHeight = 200.0;
+
+    if (widget.isRefresh) {
+      taskBloc.add(GetAllTasks());
+    }
 
     return SafeArea(
       child: Material(

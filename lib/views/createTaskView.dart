@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:genshin_calculator/utils/colors.dart';
 import 'package:genshin_calculator/utils/constant.dart';
 import 'package:genshin_calculator/utils/keys.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sizer/sizer.dart';
 import 'widgets/gradientAppBar.dart';
 
 class CreateTaskView extends StatefulWidget {
-  CreateTaskView({Key key}) : super(key: key);
+  final PersistentTabController controller;
+  final VoidCallback callback;
+
+  CreateTaskView({Key key, this.controller, this.callback}) : super(key: key);
 
   @override
   _CreateTaskViewState createState() => _CreateTaskViewState();
@@ -110,6 +114,8 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                         onPressed: () {
                           // dismiss keyboard
                           FocusScope.of(context).unfocus();
+                          widget.controller.jumpToTab(0);
+                          widget.callback();
 
                           if (_formKey.currentState.validate()) {
                             print("create task");

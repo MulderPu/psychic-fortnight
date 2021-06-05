@@ -17,6 +17,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   PersistentTabController _controller;
+  bool isRefresh = false;
 
   @override
   void initState() {
@@ -25,7 +26,24 @@ class _HomeViewState extends State<HomeView> {
   }
 
   List<Widget> _buildScreens() {
-    return [TaskView(), CreateTaskView(), ToolView()];
+    print("isRefresh : $isRefresh");
+    return [
+      TaskView(
+        isRefresh: isRefresh,
+      ),
+      CreateTaskView(
+        controller: _controller,
+        callback: () {
+          // refresh here
+          print("hehe");
+
+          setState(() {
+            isRefresh = true;
+          });
+        },
+      ),
+      ToolView()
+    ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
