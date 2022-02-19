@@ -11,7 +11,7 @@ import 'customShape/circle.dart';
 class TaskView extends StatefulWidget {
   final bool isRefresh;
 
-  TaskView({Key key, this.isRefresh}) : super(key: key);
+  const TaskView({Key? key, required this.isRefresh}) : super(key: key);
 
   @override
   _TaskViewState createState() => _TaskViewState();
@@ -30,7 +30,7 @@ class _TaskViewState extends State<TaskView> {
 
   @override
   Widget build(BuildContext context) {
-    final double expandedHeight = 200.0;
+    const double expandedHeight = 200.0;
 
     if (widget.isRefresh) {
       taskBloc.add(GetAllTasks());
@@ -45,25 +45,25 @@ class _TaskViewState extends State<TaskView> {
               pinned: true,
             ),
             SliverPadding(
-                padding: EdgeInsets.only(top: expandedHeight / 1.5),
+                padding: const EdgeInsets.only(top: expandedHeight / 1.5),
                 sliver: BlocBuilder<TaskblocBloc, TaskblocState>(
-                  cubit: taskBloc,
+                  bloc: taskBloc,
                   builder: (context, state) {
                     if (state is FinishGetAllTasks) {
                       return SliverFillRemaining(
                         child: ListView.builder(
-                            itemCount: state.tasks.length,
+                            itemCount: state.tasks?.length,
                             itemBuilder: (BuildContext context, int index) {
                               // access element from list using index
                               // you can create and return a widget of your choice
                               return Container(
-                                margin: EdgeInsets.only(
+                                margin: const EdgeInsets.only(
                                   left: PADDING_LARGE,
                                   right: PADDING_LARGE,
                                   top: 0,
                                   bottom: PADDING_LARGE,
                                 ),
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   gradient: LinearGradient(
                                     stops: [0.015, 0.015],
                                     colors: [lightPurple, Colors.white],
@@ -80,19 +80,19 @@ class _TaskViewState extends State<TaskView> {
                                 ),
                                 child: CheckboxListTile(
                                   title: Text(
-                                    state.tasks[index].title,
+                                    "${state.tasks![index].title}",
                                     style: TextStyle(fontSize: FONT_LABEL.sp),
                                   ),
-                                  onChanged: (bool value) {
+                                  onChanged: (value) {
                                     // * update checkbox state
                                     taskBloc.add(UpdateTaskStatus(
-                                      taskID: state.tasks[index].id,
+                                      taskID: state.tasks![index].id!,
                                       statusIndex: value == true
                                           ? TaskStatusEnum.COMPLETE.index
                                           : TaskStatusEnum.PENDING.index,
                                     ));
                                   },
-                                  value: state.tasks[index].statusIndex ==
+                                  value: state.tasks![index].statusIndex ==
                                           TaskStatusEnum.COMPLETE.index
                                       ? true
                                       : false,
@@ -102,7 +102,7 @@ class _TaskViewState extends State<TaskView> {
                             }),
                       );
                     }
-                    return SliverFillRemaining();
+                    return const SliverFillRemaining();
                   },
                 ))
           ],
@@ -115,7 +115,7 @@ class _TaskViewState extends State<TaskView> {
 class MySliverAppBar extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
 
-  MySliverAppBar({@required this.expandedHeight});
+  MySliverAppBar({required this.expandedHeight});
 
   @override
   Widget build(
@@ -128,7 +128,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
           centerTitle: true,
           automaticallyImplyLeading: false, // hides default back button
           flexibleSpace: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
@@ -137,11 +137,11 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
                   lightPurple,
                 ]),
           )),
-          title: Text("Task Reminder",
+          title: const Text("Task Reminder",
               style: TextStyle(fontSize: 20.0, color: Colors.white)),
           actions: [
             IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               onPressed: () {
                 print("Search pressed");
               },
@@ -183,8 +183,8 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
               child: SizedBox(
                 height: expandedHeight,
                 width: MediaQuery.of(context).size.width / 2,
-                child: Padding(
-                  padding: const EdgeInsets.all(PADDING_MEDIUM),
+                child: const Padding(
+                  padding: EdgeInsets.all(PADDING_MEDIUM),
                   child: Image(image: AssetImage("assets/images/anemo.png")),
                 ),
               ),

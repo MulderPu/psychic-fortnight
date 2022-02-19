@@ -3,7 +3,7 @@ import 'package:genshin_calculator/utils/colors.dart';
 import 'package:genshin_calculator/views/customShape/circle.dart';
 
 class GradientAppBar extends StatelessWidget with PreferredSizeWidget {
-  const GradientAppBar({Key key, this.title}) : super(key: key);
+  const GradientAppBar({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -16,7 +16,7 @@ class GradientAppBar extends StatelessWidget with PreferredSizeWidget {
         AppBar(
           // automaticallyImplyLeading: false, // hides default back button
           flexibleSpace: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.topRight,
@@ -44,5 +44,5 @@ class GradientAppBar extends StatelessWidget with PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

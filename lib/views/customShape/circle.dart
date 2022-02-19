@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CircleOne extends CustomPainter {
-  Paint _paint;
+  Paint? _paint;
 
   CircleOne() {
     _paint = Paint()
@@ -12,7 +12,7 @@ class CircleOne extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawCircle(Offset(-110.0, -70.0), 100.0, _paint);
+    canvas.drawCircle(const Offset(-110.0, -70.0), 100.0, _paint!);
   }
 
   @override
@@ -22,7 +22,7 @@ class CircleOne extends CustomPainter {
 }
 
 class CircleTwo extends CustomPainter {
-  Paint _paint;
+  Paint? _paint;
 
   CircleTwo() {
     _paint = Paint()
@@ -33,7 +33,7 @@ class CircleTwo extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawCircle(Offset(100.0, 70.0), 50.0, _paint);
+    canvas.drawCircle(const Offset(100.0, 70.0), 50.0, _paint!);
   }
 
   @override

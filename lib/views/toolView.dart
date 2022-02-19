@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:genshin_calculator/utils/colors.dart';
 import 'package:genshin_calculator/utils/constant.dart';
@@ -9,7 +8,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:sizer/sizer.dart';
 
 class ToolView extends StatefulWidget {
-  ToolView({Key key}) : super(key: key);
+  const ToolView({Key? key}) : super(key: key);
 
   @override
   _ToolViewState createState() => _ToolViewState();
@@ -19,10 +18,10 @@ class _ToolViewState extends State<ToolView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GradientAppBar(
+      appBar: const GradientAppBar(
         title: "Tools",
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -35,7 +34,7 @@ class _ToolViewState extends State<ToolView> {
                   onPressed: () {
                     pushNewScreen(
                       context,
-                      screen: ResinTimeView(),
+                      screen: const ResinTimeView(),
                       withNavBar: false, // OPTIONAL VALUE. True by default.
                       pageTransitionAnimation:
                           PageTransitionAnimation.cupertino,
@@ -46,13 +45,13 @@ class _ToolViewState extends State<ToolView> {
                     onPrimary: Colors.white,
                     primary: lightPurple,
                     onSurface: Colors.grey,
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                     elevation: 10,
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
                   ),
-                  child: Text("Resin Time")),
+                  child: const Text("Resin Time")),
             ),
             Padding(
               padding: const EdgeInsets.only(
@@ -61,7 +60,7 @@ class _ToolViewState extends State<ToolView> {
                   onPressed: () {
                     pushNewScreen(
                       context,
-                      screen: SuddenMissionView(),
+                      screen: const SuddenMissionView(),
                       withNavBar: false, // OPTIONAL VALUE. True by default.
                       pageTransitionAnimation:
                           PageTransitionAnimation.cupertino,
@@ -72,13 +71,13 @@ class _ToolViewState extends State<ToolView> {
                     onPrimary: Colors.white,
                     primary: lightPurple,
                     onSurface: Colors.grey,
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                     elevation: 10,
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
                     ),
                   ),
-                  child: Text("Sudden Mission")),
+                  child: const Text("Sudden Mission")),
             ),
           ],
         ),

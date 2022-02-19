@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class TaskStatus {
-  static final tblTaskStatus = "TaskStatus";
-  static final dbId = "id";
-  static final dbCreated = "created";
-  static final dbUpdated = "updated";
-  static final dbTaskId = "task_id";
-  static final dbStatus = "status";
+  static const tblTaskStatus = "TaskStatus";
+  static const dbId = "id";
+  static const dbCreated = "created";
+  static const dbUpdated = "updated";
+  static const dbTaskId = "task_id";
+  static const dbStatus = "status";
 
-  int id, created, updated, taskId, status;
+  int? id, created, updated, taskId, status;
 
   TaskStatus.create(
       {@required this.taskId, this.created = -1, this.updated = -1}) {

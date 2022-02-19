@@ -13,15 +13,15 @@ import 'package:sizer/sizer.dart';
 import 'package:intl/intl.dart';
 
 class SuddenMissionView extends StatefulWidget {
-  SuddenMissionView({Key key}) : super(key: key);
+  const SuddenMissionView({Key? key}) : super(key: key);
 
   @override
   _SuddenMissionViewState createState() => _SuddenMissionViewState();
 }
 
 class _SuddenMissionViewState extends State<SuddenMissionView> {
-  int suddenMissionCount;
-  bool resetUi;
+  int? suddenMissionCount;
+  bool? resetUi;
   ClickHistory latestHistory = ClickHistory();
   ClickHistory previousHistory = ClickHistory();
 
@@ -35,7 +35,7 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
     return BlocProvider(
       create: (_) => SuddenmissionCubit(),
       child: Scaffold(
-        appBar: GradientAppBar(
+        appBar: const GradientAppBar(
           title: "Sudden Event",
         ),
         body: BlocConsumer<SuddenmissionCubit, SuddenmissionState>(
@@ -105,10 +105,8 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
               suddenMissionCount = 0;
               context.read<SuddenmissionCubit>().readSession();
 
-              return Container(
-                child: Center(
-                  child: CircularProgressIndicator(),
-                ),
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             }
 
@@ -124,12 +122,12 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                       backgroundColor: lightPurple,
                       onPressed: () => context
                           .read<SuddenmissionCubit>()
-                          .decrement(suddenMissionCount - 1),
-                      child: Icon(Icons.remove),
+                          .decrement(suddenMissionCount! - 1),
+                      child: const Icon(Icons.remove),
                     ),
                     Text(
                       suddenMissionCount == null
-                          ? 0
+                          ? "0"
                           : suddenMissionCount.toString(),
                       style: TextStyle(
                         color: Colors.black,
@@ -144,17 +142,17 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                             onPressed: () {
                               context
                                   .read<SuddenmissionCubit>()
-                                  .increment(suddenMissionCount + 1);
+                                  .increment(suddenMissionCount! + 1);
                             },
-                            child: Icon(Icons.add),
+                            child: const Icon(Icons.add),
                           )
                         : FloatingActionButton(
                             elevation: 0,
                             focusElevation: 0,
                             hoverElevation: 0,
                             backgroundColor: Colors.grey,
-                            onPressed: () => null,
-                            child: Icon(Icons.add),
+                            onPressed: () => {},
+                            child: const Icon(Icons.add),
                           ),
                   ],
                 ),
@@ -192,13 +190,13 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                         onPrimary: Colors.white,
                         primary: lightPurple,
                         onSurface: Colors.grey,
-                        minimumSize: Size(double.infinity, 50),
+                        minimumSize: const Size(double.infinity, 50),
                         elevation: 10,
-                        shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(30.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
-                      child: Text("Reset Count")),
+                      child: const Text("Reset Count")),
                 ),
                 // log here
                 Text(
@@ -219,7 +217,8 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                             reverseDuration: const Duration(milliseconds: 100),
                             child: Text(
                               latestHistory.title ?? "",
-                              key: ValueKey<String>(latestHistory.datetime),
+                              key: ValueKey<String>(
+                                  latestHistory.datetime ?? ""),
                             ),
                           ),
                         ),
@@ -228,7 +227,7 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                           reverseDuration: const Duration(milliseconds: 100),
                           child: Text(
                             latestHistory.datetime ?? "",
-                            key: ValueKey<String>(latestHistory.datetime),
+                            key: ValueKey<String>(latestHistory.datetime ?? ""),
                           ),
                         ),
                       )),
@@ -246,7 +245,8 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                             reverseDuration: const Duration(milliseconds: 100),
                             child: Text(
                               previousHistory.title ?? "",
-                              key: ValueKey<String>(previousHistory.datetime),
+                              key: ValueKey<String>(
+                                  previousHistory.datetime ?? ""),
                             ),
                           ),
                         ),
@@ -255,7 +255,8 @@ class _SuddenMissionViewState extends State<SuddenMissionView> {
                           reverseDuration: const Duration(milliseconds: 100),
                           child: Text(
                             previousHistory.datetime ?? "",
-                            key: ValueKey<String>(previousHistory.datetime),
+                            key: ValueKey<String>(
+                                previousHistory.datetime ?? ""),
                           ),
                         ),
                       )),

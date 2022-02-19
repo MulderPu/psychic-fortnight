@@ -27,9 +27,7 @@ class SuddenmissionCubit extends Cubit<SuddenmissionState> {
     ClickHistory previousHistory = ClickHistory();
 
     var storedMissionCount = prefs.getInt("missionCount");
-    if (storedMissionCount == null) {
-      storedMissionCount = 0;
-    }
+    storedMissionCount ??= 0;
 
     // see if new day
     var suddenDateTime = prefs.getString("suddenDateTime");
@@ -63,10 +61,11 @@ class SuddenmissionCubit extends Cubit<SuddenmissionState> {
     }
 
     latestHistory = prefs.getString("latestHistory") != null
-        ? ClickHistory.fromJson(json.decode(prefs.getString("latestHistory")))
+        ? ClickHistory.fromJson(json.decode(prefs.getString("latestHistory")!))
         : ClickHistory();
     previousHistory = prefs.getString("previousHistory") != null
-        ? ClickHistory.fromJson(json.decode(prefs.getString("previousHistory")))
+        ? ClickHistory.fromJson(
+            json.decode(prefs.getString("previousHistory")!))
         : ClickHistory();
 
     print("stored mission count: $storedMissionCount");

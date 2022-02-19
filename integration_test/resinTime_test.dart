@@ -12,13 +12,13 @@ void main() {
     testWidgets("validate empty field", (WidgetTester tester) async {
       // final Finder resinField = find.byKey(Key('resinField'));
       final Finder calculateButton =
-          find.byKey(Key(ResinTimePageKeys.CALCULATE_BUTTON));
+          find.byKey(const Key(ResinTimePageKeys.CALCULATE_BUTTON));
 
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
 
       await tester.pumpAndSettle();
 
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: ResinTimeView(),
       ));
 
@@ -28,37 +28,38 @@ void main() {
 
       await tester.tap(calculateButton);
 
-      await tester.pumpAndSettle(Duration(seconds: 1));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
 
       expect(
           find.byWidgetPredicate((widget) =>
               widget is Text &&
-              widget.data.contains("Resin field cannot be empty.")),
+              widget.data!.contains("Resin field cannot be empty.")),
           findsOneWidget);
 
       expect(
           find.byWidgetPredicate((widget) =>
               widget is Text &&
-              widget.data.contains("Resin needed field cannot be empty.")),
+              widget.data!.contains("Resin needed field cannot be empty.")),
           findsOneWidget);
 
-      await tester.pumpAndSettle(Duration(seconds: 1));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
     });
 
     testWidgets("Resin Calculator Test", (WidgetTester tester) async {
       /* Setups the finder*/
-      final Finder resinField = find.byKey(Key(ResinTimePageKeys.RESIN_FIELD));
+      final Finder resinField =
+          find.byKey(const Key(ResinTimePageKeys.RESIN_FIELD));
       final Finder resinNeededField =
-          find.byKey(Key(ResinTimePageKeys.RESIN_NEEDED_FIELD));
+          find.byKey(const Key(ResinTimePageKeys.RESIN_NEEDED_FIELD));
       final Finder calculateButton =
-          find.byKey(Key(ResinTimePageKeys.CALCULATE_BUTTON));
+          find.byKey(const Key(ResinTimePageKeys.CALCULATE_BUTTON));
 
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
 
       /* pump and settle is same like waitfor in flutter_driver */
       await tester.pumpAndSettle();
 
-      await tester.pumpWidget(MaterialApp(
+      await tester.pumpWidget(const MaterialApp(
         home: ResinTimeView(),
       ));
 
@@ -74,18 +75,18 @@ void main() {
       print("button tapped");
 
       // wait for 1 sec
-      await tester.pumpAndSettle(Duration(seconds: 1));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
 
       expect(find.text("Result: 2 hours and 40 mins"), findsOneWidget);
 
       expect(
           find.byWidgetPredicate((widget) =>
               widget is Text &&
-              widget.data.startsWith("Result: ") &&
-              widget.data.contains("Result: 2 hours and 40 mins")),
+              widget.data!.startsWith("Result: ") &&
+              widget.data!.contains("Result: 2 hours and 40 mins")),
           findsOneWidget);
 
-      await tester.pumpAndSettle(Duration(seconds: 1));
+      await tester.pumpAndSettle(const Duration(seconds: 1));
     });
   });
 }

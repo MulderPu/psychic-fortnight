@@ -10,7 +10,9 @@ class CreateTaskView extends StatefulWidget {
   final PersistentTabController controller;
   final VoidCallback callback;
 
-  CreateTaskView({Key key, this.controller, this.callback}) : super(key: key);
+  const CreateTaskView(
+      {Key? key, required this.controller, required this.callback})
+      : super(key: key);
 
   @override
   _CreateTaskViewState createState() => _CreateTaskViewState();
@@ -26,7 +28,7 @@ class _CreateTaskViewState extends State<CreateTaskView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: GradientAppBar(
+      appBar: const GradientAppBar(
         title: "Create New Task",
       ),
       body: Form(
@@ -41,7 +43,7 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                   child: TextFormField(
-                    key: Key(CreateTaskPageKeys.TITLE_FIELD),
+                    key: const Key(CreateTaskPageKeys.TITLE_FIELD),
                     controller: titleController,
                     cursorColor: Colors.purple,
                     keyboardType: TextInputType.number,
@@ -59,7 +61,7 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                         ),
                         hintText: ''),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value == "") {
                         return 'Title field cannot be empty.';
                       }
                       return null;
@@ -69,7 +71,7 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                 Padding(
                   padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                   child: TextFormField(
-                    key: Key(ResinTimePageKeys.RESIN_NEEDED_FIELD),
+                    key: const Key(ResinTimePageKeys.RESIN_NEEDED_FIELD),
                     controller: commentController,
                     cursorColor: Colors.purple,
                     keyboardType: TextInputType.number,
@@ -87,7 +89,7 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                         ),
                         hintText: ''),
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value == "") {
                         return 'Comment needed field cannot be empty.';
                       }
                       return null;
@@ -99,16 +101,16 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                        key: Key(CreateTaskPageKeys.CREATE_BUTTON),
+                        key: const Key(CreateTaskPageKeys.CREATE_BUTTON),
                         style: ElevatedButton.styleFrom(
                           textStyle: TextStyle(fontSize: FONT_BUTTON.sp),
                           onPrimary: Colors.white,
                           primary: lightPurple,
                           onSurface: Colors.grey,
-                          minimumSize: Size(double.infinity, 50),
+                          minimumSize: const Size(double.infinity, 50),
                           elevation: 10,
-                          shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(30.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0),
                           ),
                         ),
                         onPressed: () {
@@ -117,11 +119,11 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                           widget.controller.jumpToTab(0);
                           widget.callback();
 
-                          if (_formKey.currentState.validate()) {
+                          if (_formKey.currentState!.validate()) {
                             print("create task");
                           }
                         },
-                        child: Text('Create')),
+                        child: const Text('Create')),
                   ),
                 ),
               ],

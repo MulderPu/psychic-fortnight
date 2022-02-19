@@ -7,7 +7,7 @@ import 'package:genshin_calculator/views/toolView.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({Key key, this.title}) : super(key: key);
+  const HomeView({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -16,7 +16,7 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  PersistentTabController _controller;
+  late PersistentTabController _controller;
   bool isRefresh = false;
 
   @override
@@ -42,20 +42,20 @@ class _HomeViewState extends State<HomeView> {
           });
         },
       ),
-      ToolView()
+      const ToolView()
     ];
   }
 
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.list_bullet_below_rectangle),
+        icon: const Icon(CupertinoIcons.list_bullet_below_rectangle),
         title: ("Task"),
         activeColorPrimary: lightPurple,
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(
+        icon: const Icon(
           CupertinoIcons.add,
           color: Colors.white,
         ),
@@ -64,7 +64,7 @@ class _HomeViewState extends State<HomeView> {
         inactiveColorPrimary: CupertinoColors.systemGrey,
       ),
       PersistentBottomNavBarItem(
-        icon: Icon(CupertinoIcons.wrench),
+        icon: const Icon(CupertinoIcons.wrench),
         title: ("Tools"),
         activeColorPrimary: lightPurple,
         inactiveColorPrimary: CupertinoColors.systemGrey,
@@ -93,12 +93,12 @@ class _HomeViewState extends State<HomeView> {
       ),
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
-      itemAnimationProperties: ItemAnimationProperties(
+      itemAnimationProperties: const ItemAnimationProperties(
         // Navigation Bar's items animation properties.
         duration: Duration(milliseconds: 200),
         curve: Curves.ease,
       ),
-      screenTransitionAnimation: ScreenTransitionAnimation(
+      screenTransitionAnimation: const ScreenTransitionAnimation(
         // Screen transition animation on change of selected tab.
         animateTabTransition: true,
         curve: Curves.ease,

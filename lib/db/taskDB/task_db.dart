@@ -8,9 +8,9 @@ import '../app_db.dart';
 
 class TaskDB {
   static final TaskDB _taskDb = TaskDB._internal(AppDatabase.get());
-  TaskStatusDB _taskStatusDB;
+  TaskStatusDB? _taskStatusDB;
 
-  AppDatabase _appDatabase;
+  final AppDatabase _appDatabase;
 
   //private internal constructor to make it singleton
   TaskDB._internal(this._appDatabase);
@@ -34,9 +34,9 @@ class TaskDB {
     // * if next day, reset checkbox result
     bool refreshTask = false;
     for (var item in result) {
-      var epoch = item['update_status'];
-      if (epoch != null) {
-        DateTime date = new DateTime.fromMillisecondsSinceEpoch(epoch);
+      if (item['update_status'] != null) {
+        int epoch = int.parse(item['update_status'].toString());
+        DateTime date = DateTime.fromMillisecondsSinceEpoch(epoch);
         // * checking datetime here
         var currentDateTime = DateTime.now();
         // ! simulate current date for testing
@@ -52,7 +52,8 @@ class TaskDB {
 
           final TaskStatusDB _taskStatusDB = TaskStatusDB.get();
           await _taskStatusDB.updateStatusTask(
-              item[Tasks.dbId], TaskStatusEnum.PENDING.index);
+              int.parse(item[Tasks.dbId].toString()),
+              TaskStatusEnum.PENDING.index);
         }
       }
     }
@@ -102,7 +103,7 @@ class TaskDB {
       int id = await txn.rawInsert('INSERT OR REPLACE INTO '
           '${Tasks.tblTask}(${Tasks.dbId},${Tasks.dbTitle},${Tasks.dbComment})'
           ' VALUES(${task.id}, "${task.title}", "${task.comment}")');
-      if (id > 0 && id != null) {
+      if (id > 0) {
         var taskStatus = TaskStatus.create(
           taskId: id,
         );

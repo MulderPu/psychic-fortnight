@@ -14,7 +14,7 @@ class AppDatabase {
   //private internal constructor to make it singleton
   AppDatabase._internal();
 
-  Database _database;
+  late Database _database;
 
   static AppDatabase get() {
     return _appDatabase;

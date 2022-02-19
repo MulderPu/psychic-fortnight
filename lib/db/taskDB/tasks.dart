@@ -1,25 +1,25 @@
 import 'package:meta/meta.dart';
 
 class Tasks {
-  static final tblTask = "Tasks";
-  static final dbId = "id";
-  static final dbCreated = "created";
-  static final dbUpdated = "updated";
-  static final dbTitle = "title";
-  static final dbComment = "comment";
-  static final dbIsDeleted = "isDeleted";
+  static const tblTask = "Tasks";
+  static const dbId = "id";
+  static const dbCreated = "created";
+  static const dbUpdated = "updated";
+  static const dbTitle = "title";
+  static const dbComment = "comment";
+  static const dbIsDeleted = "isDeleted";
 
   // const
-  static final active = 0;
-  static final deleted = 1;
+  static const active = 0;
+  static const deleted = 1;
 
-  String title, comment;
-  int id, created, updated, isDeleted, statusIndex;
+  String? title, comment;
+  int? id, created, updated, isDeleted, statusIndex;
   // TaskStatus tasksStatus;
   // List<String> labelList = List<String>();
 
   Tasks.create(
-      {@required this.title,
+      {required this.title,
       this.comment = "",
       this.created = -1,
       this.updated = -1}) {

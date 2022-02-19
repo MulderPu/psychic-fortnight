@@ -7,7 +7,7 @@ class TaskStatusDB {
   static final TaskStatusDB _taskStatusDB =
       TaskStatusDB._internal(AppDatabase.get());
 
-  AppDatabase _appDatabase;
+  final AppDatabase _appDatabase;
 
   //private internal constructor to make it singleton
   TaskStatusDB._internal(this._appDatabase);

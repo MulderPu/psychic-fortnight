@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:genshin_calculator/db/taskDB/taskStatus.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:genshin_calculator/db/taskDB/taskStatus_db.dart';
 import 'package:genshin_calculator/db/taskDB/task_db.dart';
 import 'package:genshin_calculator/db/taskDB/tasks.dart';
@@ -11,32 +11,30 @@ part 'task_event.dart';
 part 'task_state.dart';
 
 class TaskblocBloc extends Bloc<TaskblocEvent, TaskblocState> {
-  TaskblocBloc() : super(TaskblocInitial());
-
-  @override
-  Stream<TaskblocState> mapEventToState(
-    TaskblocEvent event,
-  ) async* {
-    // TODO: implement mapEventToState
-    if (event is GetAllTasks) {
-      yield* _mapGetAllTasksToState(event);
-    } else if (event is RefreshAllTask) {
-      yield* _mapRefreshAllTasksToState(event);
-    } else if (event is InitTasks) {
-      yield* _mapInitTasksToState(event);
-    } else if (event is UpdateTaskStatus) {
-      yield* _mapUpdateTaskStatus(event);
-    }
+  TaskblocBloc() : super(TaskblocInitial()) {
+    on<TaskblocEvent>((event, emit) async {
+      if (event is GetAllTasks) {
+        await _mapGetAllTasksToState(event, emit);
+      } else if (event is RefreshAllTask) {
+        _mapRefreshAllTasksToState(event, emit);
+      } else if (event is InitTasks) {
+        _mapInitTasksToState(event, emit);
+      } else if (event is UpdateTaskStatus) {
+        _mapUpdateTaskStatus(event, emit);
+      }
+    }, transformer: sequential());
   }
 
-  Stream<TaskblocState> _mapUpdateTaskStatus(UpdateTaskStatus event) async* {
+  Future<void> _mapUpdateTaskStatus(
+      UpdateTaskStatus event, Emitter<TaskblocState> emit) async {
     final TaskStatusDB _taskStatusDB = TaskStatusDB.get();
     _taskStatusDB
         .updateStatusTask(event.taskID, event.statusIndex)
         .then((value) => {add(GetAllTasks())});
   }
 
-  Stream<TaskblocState> _mapGetAllTasksToState(GetAllTasks event) async* {
+  Future<void> _mapGetAllTasksToState(
+      GetAllTasks event, Emitter<TaskblocState> emit) async {
     final TaskDB _taskDB = TaskDB.get();
     List<Tasks> tasks = await _taskDB.getTasks();
 
@@ -44,10 +42,12 @@ class TaskblocBloc extends Bloc<TaskblocEvent, TaskblocState> {
       // inject initial data
       add(InitTasks());
     }
-    yield FinishGetAllTasks(tasks: tasks);
+    print(tasks);
+    emit(FinishGetAllTasks(tasks: tasks));
   }
 
-  Stream<TaskblocState> _mapInitTasksToState(InitTasks event) async* {
+  Future<void> _mapInitTasksToState(
+      InitTasks event, Emitter<TaskblocState> emit) async {
     final TaskDB _taskDB = TaskDB.get();
     List<Tasks> taskList = [];
     // initial tasks
@@ -85,10 +85,10 @@ class TaskblocBloc extends Bloc<TaskblocEvent, TaskblocState> {
     });
   }
 
-  Stream<TaskblocState> _mapRefreshAllTasksToState(
-      RefreshAllTask event) async* {
+  Future<void> _mapRefreshAllTasksToState(
+      RefreshAllTask event, Emitter<TaskblocState> emit) async {
     final TaskDB _taskDB = TaskDB.get();
     List<Tasks> tasks = await _taskDB.getTasks();
-    yield FinishGetAllTasks(tasks: tasks);
+    emit(FinishGetAllTasks(tasks: tasks));
   }
 }

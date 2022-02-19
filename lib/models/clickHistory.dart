@@ -1,6 +1,6 @@
 class ClickHistory {
-  String title;
-  String datetime;
+  String? title;
+  String? datetime;
 
   ClickHistory();
 

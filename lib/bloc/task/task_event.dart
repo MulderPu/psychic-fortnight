@@ -13,7 +13,7 @@ class UpdateTaskStatus extends TaskblocEvent {
   final int taskID;
   final int statusIndex;
 
-  UpdateTaskStatus({this.taskID, this.statusIndex});
+  UpdateTaskStatus({required this.taskID, required this.statusIndex});
 
   @override
   String toString() {

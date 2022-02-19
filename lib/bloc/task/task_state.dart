@@ -6,7 +6,7 @@ abstract class TaskblocState {}
 class TaskblocInitial extends TaskblocState {}
 
 class FinishGetAllTasks extends TaskblocState {
-  final List<Tasks> tasks;
+  final List<Tasks>? tasks;
 
   FinishGetAllTasks({this.tasks});
 
